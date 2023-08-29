@@ -1,0 +1,32 @@
+require("@nomicfoundation/hardhat-toolbox");
+
+require("@nomicfoundation/hardhat-chai-matchers")
+
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+     solidity: {
+    version: "0.8.17",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+
+      },
+    },
+  },
+  paths: {
+    tests: "./test"
+  },
+
+   networks: {
+    hardhat: {
+      gas: 12000000,
+      blockGasLimit: 0x1fffffffffffff,
+      allowUnlimitedContractSize: true,
+      chainId: 1337
+    }
+  },
+
+
+};

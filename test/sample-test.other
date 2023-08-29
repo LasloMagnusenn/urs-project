@@ -1,0 +1,483 @@
+        //works fine
+    it("test refunds", async function() {
+  
+  
+      const { GameContract, MintContract, acc1, acc2} = await loadFixture(deploy);
+
+
+        await MintContract.connect(acc2).newSmartMint(5,16, {value: 300});
+
+
+        // Default behavior
+        await expect(await GameContract.refundYourNFT([1,2,3]))
+          .to.changeEtherBalance(acc1.address, +150);
+
+           // Default behavior
+        await expect(await GameContract.connect(acc2).refundYourNFT([101,102,103,104]))
+        .to.changeEtherBalance(acc2.address, +200);
+
+        
+
+          
+
+  
+    });
+
+
+
+    
+    // it("tests with mint 1 level  (NO MORE 1 TOKEN)", async function() {
+  
+  
+    //   const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+    //   await expect(MintContract.newSmartMint(2,1, {value:50})).to.be.rejectedWith('Max Supply for room reached');
+
+    //   await MintContract.newSmartMint(1,1, {value:50});
+
+    //   await expect(MintContract.newSmartMint(1,1, {value:16})).to.be.rejectedWith('Max Supply for room reached');
+
+
+  
+    // });
+  
+
+
+    //     it("check transition from cooldown to waitingPlayers", async function() {
+  
+  
+    //   const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+    //             console.log("expect waiting players before enterInGame")
+    //              expect((await GameContract.getStatusForTable(16,0))).to.equal(0)
+    //              expect((await GameContract.getStatusForTable(16,0))).to.equal(0)
+
+
+
+
+  
+
+    //   const enter1 = await  GameContract.advancedBulkEnterInGame(16,0, [1,2,3,4,5,6,7,8,9,10])
+    //   await enter1.wait()
+
+    //   const enter2 = await  GameContract.advancedBulkEnterInGame(16,1, [11,12,13,14,15,16,17,18,19,20])
+    //   await enter2.wait()
+
+
+      
+
+
+
+
+    //   await time.increase(86401);
+
+
+
+
+    //   const claim1s = await GameContract.ClaimSingleGame(16,0,4444);
+    //   await claim1s.wait();
+
+    //   const claim2s = await GameContract.ClaimSingleGame(16,1,442454);
+    //   await claim2s.wait();
+
+
+      
+    //   console.log("expect cooldown after claimTable")
+    //   expect((await GameContract.getStatusForTable(16,0))).to.equal(2)
+    //   expect((await GameContract.getStatusForTable(16,0))).to.equal(2)
+
+
+    //   await time.increase(121);
+
+
+    //   const enter3 = await  GameContract.advancedBulkEnterInGame(16,0, [21])
+    //   await enter3.wait()
+
+    //   const enter4 = await  GameContract.advancedBulkEnterInGame(16,1, [22])
+    //   await enter4.wait()
+
+ 
+    //   console.log("expect waitingPlayers after second enter after claimGame")
+    //   expect((await GameContract.getStatusForTable(16,0))).to.equal(0)
+    //   expect((await GameContract.getStatusForTable(16,0))).to.equal(0)
+
+   
+   
+  
+    // });
+  
+  
+
+
+  
+        // протестировать все сценарии клейма блек рума и после протестировать поведение клейма стейкинг токенов
+
+  
+    // it("claimBlackRoom with transform in mintPasses", async function() {
+  
+  
+    //   const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+  
+    //   await token.mint(GameContract.address, 1000000);
+
+
+    //     const set = await GameContract.setPrizeRadioChoise(1)
+    //     await set.wait();
+
+    // const tx = await GameContract.bulkEnterInBlackRoom([1,2,3,4,5])
+    // await tx.wait()
+    
+    // // const tx2 = await GameContract.connect(acc2).bulkEnterInBlackRoom([11,12,13,14,15])
+    // // await tx2.wait()
+
+    
+    // // const tx3= await GameContract.connect(acc3).bulkEnterInBlackRoom([16,17,18,19,20])
+    // // await tx3.wait()
+
+  
+    // // const tx4 = await GameContract.connect(acc4).bulkEnterInBlackRoom([21,22,23,24,25,26])
+    // // await tx4.wait()
+
+  
+    // // const tx5 = await GameContract.connect(acc5).bulkEnterInBlackRoom([27])
+    // // await tx5.wait()
+
+    // await time.increase(86400);
+
+
+    //     // данный клейм меняет свойство 3 токен идсов на минт пассы
+
+    //     console.log(await GameContract.getBlackRoom() )
+
+
+    //     console.log(await GameContract.generateWinnersForBlackRoom(125125)
+    //     )
+
+    //     await time.increase(8640)
+
+
+    //     // console.log(await GameContract.getBulkRandomIndex());
+
+    // const claim = await GameContract.claimBlackRoom(125125);
+    // await claim.wait()
+    // // //   // console.log(claim)
+
+    //   // const receipt = await ethers.provider.getTransactionReceipt(claim.hash);
+    //   // const interfaceTX = new ethers.utils.Interface(["event blackRoomClaimed(uint256[] tempWinners, uint256[] tempInvolvedTokenIds, uint256 prizeRadioChoice)"]);
+    //   // const data = receipt.logs[0].data;
+    //   // const topics = receipt.logs[0].topics;
+    //   // const event = interfaceTX.decodeEventLog("blackRoomClaimed", data, topics);
+
+    //   // console.log("///////////////")
+
+
+    //   // console.log("$$$$$$$$")
+
+      
+    //   // console.log(await GameContract.getBlackRoom())
+    //   console.log("$$$$$$$$")
+
+
+
+    //         console.log(await GameContract.returnTimesPlayerInBlackRoom(acc1.address));
+    //         console.log(await GameContract.getIndexesOfPlayerInBlackRoom());
+    //         console.log(await GameContract.getIndexesOfPlayerInBlackRoom());
+
+    //         console.log("$$$$$$$$")
+
+            
+
+
+
+      
+
+    //   const stak = await GameContract.claimStakingTokensFromBlackRoom();
+    //   await stak.wait()
+
+
+    //   console.log( await token.balanceOf(acc1.address))
+
+      
+
+    //   // const receipt = await ethers.provider.getTransactionReceipt(stak.hash);
+    //   // const interfaceTX = new ethers.utils.Interface(["event some(uint256[]  _data)"]);
+    //   // const data = receipt.logs[0].data;
+    //   // const topics = receipt.logs[0].topics;
+    //   // const event = interfaceTX.decodeEventLog("some", data, topics);
+      
+    //   // console.log(event)
+
+      
+  
+    //   // expect(event.from).to.equal(<addr-of-signer-account>);
+    //   // expect(event.to).to.equal(<addr-of-receipent>);
+    //   // expect(event.amount.toString()).to.equal(<amount-BigNumber>.toString());
+
+
+
+    // // await expect(GameContract.claimBlackRoom()).to.emit(GameContract, "blackRoomClaimed").withArgs(3);
+
+    
+
+   
+   
+  
+    // });
+
+
+
+    
+    it("tests with proper amount after claim Game for 2nd Level", async function() {
+  
+  
+      const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+      console.log("саплай второго рума до минта")
+      console.log (await MintContract.currentRoomSupply(2));
+      console.log(await MintContract.maxSupplyForRoom(2))
+
+      await (MintContract.newSmartMint(10,2, {value:5000}))
+
+          // чек что токены разморожены до игры
+      for (let i = 1; i <=10; i++) {
+             
+         expect(await MintContract.viewNotTransferable(i)).to.equal(false)
+         expect(await MintContract.viewNFTRoomLevel(i)).to.equal(2)
+
+
+        
+      }
+      
+
+
+      
+       await GameContract.advancedBulkEnterInGame(2,0, [1,2,3,4,5,6,7,8,9,10]);
+
+        await expect(GameContract.ClaimSingleGame(2,0,125125)).to.be.rejectedWith('try later');
+
+                    // чек что токены заморожены в игре
+
+        for (let i = 1; i <=10; i++) {
+             
+          expect( await MintContract.viewNotTransferable(i)).to.equal(true)
+  
+          
+        }
+
+        await time.increase(89000)
+        
+             
+            await GameContract.ClaimSingleGame(2,0,125125);
+
+          // чек что токены разморожены после игры
+
+            for (let i = 1; i <=10; i++) {
+             
+              expect( await MintContract.viewNotTransferable(i)).to.equal(false)
+              expect((await MintContract.viewNFTRoomLevel(i)).toNumber()).to.equal(1);
+
+      
+              
+            }
+            
+            // expect( await MintContract.tokensOfOwner(acc1.address)).to.equal([1,2,3,4,5,6,7,8,9,10]);
+            // ПРОВЕРЕНО ЧТО ЭТО ПРОВЕРКА ОТРАБАТЫВАЕТ НО РЕЗЫ В БИГИНТЕ ПРИХОДЯТ
+
+            // если все отработает то у игрока остались все токены и их можно трансферить а значит бага нет
+
+            
+
+  
+    });
+
+
+    it("tests with proper amount after claim Game for 3th Level", async function() {
+  
+  
+      const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+      await (MintContract.newSmartMint(16,3, {value:5000}))
+
+          // чек что токены разморожены до игры
+      for (let i = 1; i <=10; i++) {
+             
+         expect(await MintContract.viewNotTransferable(i)).to.equal(false)
+         expect(await MintContract.viewNFTRoomLevel(i)).to.equal(3)
+
+
+        
+      }
+      
+
+
+      
+       await GameContract.advancedBulkEnterInGame(3,0, [1,2,3,4,5,6,7,8,9,10]);
+
+        await expect(GameContract.ClaimSingleGame(3,0,125125)).to.be.rejectedWith('try later');
+
+                    // чек что токены заморожены в игре
+
+        for (let i = 1; i <=10; i++) {
+             
+          expect( await MintContract.viewNotTransferable(i)).to.equal(true)
+          
+          
+        }
+
+        await time.increase(89000)
+        
+             
+            await GameContract.ClaimSingleGame(3,0,125125);
+
+          // чек что токены разморожены после игры
+
+            for (let i = 1; i <=10; i++) {
+             
+              expect( await MintContract.viewNotTransferable(i)).to.equal(false)
+              // expect(await MintContract.viewNFTRoomLevel(i)).to.equal(2||1)
+              expect((await MintContract.viewNFTRoomLevel(i)).toNumber()).to.be.oneOf([2,1]);
+
+
+      
+              
+            }
+            
+            // expect( await MintContract.tokensOfOwner(acc1.address)).to.equal([1,2,3,4,5,6,7,8,9,10]);
+            // ПРОВЕРЕНО ЧТО ЭТО ПРОВЕРКА ОТРАБАТЫВАЕТ НО РЕЗЫ В БИГИНТЕ ПРИХОДЯТ
+
+            // если все отработает то у игрока остались все токены и их можно трансферить а значит бага нет
+
+            
+
+  
+    });
+
+    it("tests with proper amount after claim Game for 4th Level", async function() {
+  
+  
+      const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+      await (MintContract.newSmartMint(16,4, {value:5000}))
+
+          // чек что токены разморожены до игры
+      for (let i = 1; i <=10; i++) {
+             
+         expect(await MintContract.viewNotTransferable(i)).to.equal(false)
+         expect(await MintContract.viewNFTRoomLevel(i)).to.equal(4)
+
+
+        
+      }
+      
+
+
+      
+       await GameContract.advancedBulkEnterInGame(4,0, [1,2,3,4,5,6,7,8,9,10]);
+
+        await expect(GameContract.ClaimSingleGame(4,0,125125)).to.be.rejectedWith('try later');
+
+                    // чек что токены заморожены в игре
+
+        for (let i = 1; i <=10; i++) {
+             
+          expect( await MintContract.viewNotTransferable(i)).to.equal(true)
+  
+          
+        }
+
+        await time.increase(89000)
+        
+             
+            await GameContract.ClaimSingleGame(4,0,125125);
+
+          // чек что токены разморожены после игры
+
+            for (let i = 1; i <=10; i++) {
+             
+              expect( await MintContract.viewNotTransferable(i)).to.equal(false)
+              // expect(await MintContract.viewNFTRoomLevel(i)).to.equal(BigInt(3)||BigInt(2))
+              expect((await MintContract.viewNFTRoomLevel(i)).toNumber()).to.be.oneOf([3,2]);
+
+
+      
+              
+            }
+            
+            // expect( await MintContract.tokensOfOwner(acc1.address)).to.equal([1,2,3,4,5,6,7,8,9,10]);
+            // ПРОВЕРЕНО ЧТО ЭТО ПРОВЕРКА ОТРАБАТЫВАЕТ НО РЕЗЫ В БИГИНТЕ ПРИХОДЯТ
+
+            // если все отработает то у игрока остались все токены и их можно трансферить а значит бага нет
+
+            
+
+  
+    });
+
+
+    it("tests with proper amount after claim Game for 5th Level", async function() {
+  
+  
+      const { GameContract, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+
+      await (MintContract.newSmartMint(16,5, {value:5000}))
+
+          // чек что токены разморожены до игры
+      for (let i = 1; i <=10; i++) {
+             
+         expect(await MintContract.viewNotTransferable(i)).to.equal(false)
+         expect(await MintContract.viewNFTRoomLevel(i)).to.equal(5)
+         
+
+
+        
+      }
+      
+
+
+      
+       await GameContract.advancedBulkEnterInGame(5,0, [1,2,3,4,5,6,7,8,9,10]);
+
+        await expect(GameContract.ClaimSingleGame(5,0,125125)).to.be.rejectedWith('try later');
+
+                    // чек что токены заморожены в игре
+
+        for (let i = 1; i <=10; i++) {
+             
+          expect( await MintContract.viewNotTransferable(i)).to.equal(true)
+  
+          
+        }
+
+        await time.increase(89000)
+        
+             
+            await GameContract.ClaimSingleGame(5,0,125125);
+
+          // чек что токены разморожены после игры
+
+            for (let i = 1; i <=10; i++) {
+             
+              expect( await MintContract.viewNotTransferable(i)).to.equal(false)
+
+              expect((await MintContract.viewNFTRoomLevel(i)).toNumber()).to.be.oneOf([3,4]);
+
+
+      
+              
+            }
+            
+            // expect( await MintContract.tokensOfOwner(acc1.address)).to.equal([1,2,3,4,5,6,7,8,9,10]);
+            // ПРОВЕРЕНО ЧТО ЭТО ПРОВЕРКА ОТРАБАТЫВАЕТ НО РЕЗЫ В БИГИНТЕ ПРИХОДЯТ
+
+            // если все отработает то у игрока остались все токены и их можно трансферить а значит бага нет
+
+            
+
+  
+    });
+  
+
+
+
+

@@ -1,0 +1,154 @@
+// import { loadFixture, time } from "@nomicfoundation/hardhat-network-helpers";
+// import { expect } from "chai";
+// import { ethers } from "hardhat";
+// import BigNumber from 'big-number'
+// import { GameContract, GameContract__factory, MintContract, MintContract__factory } from "../typechain-types"
+// import  timestamp from 'time-stamp';
+// import { days } from "@nomicfoundation/hardhat-network-helpers/dist/src/helpers/time/duration";
+
+
+// function convertToSeconds(hours) {
+//   var seconds = hours * 3600;
+//   return seconds;
+// }
+
+
+
+// function convert(unixtimestamp) {
+//   var months_arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+//   var date = new Date(unixtimestamp * 1000);
+//   var year = date.getFullYear();
+//   var month = months_arr[date.getMonth()];
+//   var day = date.getDate();
+//   var hours = date.getHours();
+//   var minutes = "0" + date.getMinutes();
+//   var seconds = "0" + date.getSeconds();
+//   var fulldate = month + ' ' + day + '-' + year + ' ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+//   var convdataTime = month + ' ' + day;
+//   return fulldate;
+// }
+
+
+
+// describe("deploy contracts", function () {
+//     async function deploy() {
+//       const [acc1, acc2] = await ethers.getSigners();
+  
+//       const MintContractFactory = await ethers.getContractFactory("MintContract");
+//       const MintContract: MintContract = await MintContractFactory.deploy();
+//       await MintContract.deployed();
+  
+//       const GameContractFactory = await ethers.getContractFactory("GameContract");
+//       const GameContract: GameContract = await GameContractFactory.deploy(MintContract.address);
+//       await GameContract.deployed();
+
+//       console.log(await MintContract.getCurrentLimitInRoom(16))
+  
+  
+//       const tx0 = await MintContract.newSmartMint(100, 16, { value: 10000 });
+//       await tx0.wait();
+//       console.log(await MintContract.getCurrentLimitInRoom(16))
+  
+//       const createTable1 = await GameContract.createTableInRoom(16);
+//       const createTable2 = await GameContract.createTableInRoom(16);
+//       const createTable3 = await GameContract.createTableInRoom(16);
+      
+//       const createTable4 = await GameContract.createTableInRoom(16);
+//       const createTable5 = await GameContract.createTableInRoom(16);
+//       const createTable6 = await GameContract.createTableInRoom(16);
+  
+  
+//       // итого имеем 4 стола в 16 руме
+  
+  
+      
+  
+//       return { GameContract, MintContract, acc1, acc2 }
+//     }
+  
+  
+  
+  
+//     // нужно заполнить 2 игры
+  
+//     it("fulfill 2 games", async function() {
+  
+  
+//       const { GameContract, acc1, MintContract } = await loadFixture(deploy);
+    
+  
+  
+  
+  
+      
+     
+  
+  
+//         // const enter1 = await  GameContract.advancedBulkEnterInGame(16,0, [1,2,3,4,5,6,7,8,9,10])
+//         // await enter1.wait()
+  
+//         // const enter2 = await  GameContract.advancedBulkEnterInGame(16,1, [11,12,13,14,15,16,17,18,19,20])
+//         // await enter2.wait()
+  
+  
+        
+  
+//         // const enter3 = await  GameContract.advancedBulkEnterInGame(16,3, [21,22,23,24,25,26,27,28,29,30])
+//         // await enter3.wait()
+  
+//         // const enter4 = await  GameContract.advancedBulkEnterInGame(16,4, [41,42,43,44,45,46,47,48,49,50])
+//         // await enter4.wait()
+  
+  
+  
+      
+//         // const gameOneDuration = await GameContract.getGameDuration(16,0);
+//         // console.log(gameOneDuration)
+      
+//         // console.log(convert(await time.latest()))
+  
+//         await time.increase(86401);
+  
+//         // console.log(convert(await time.latest()))
+  
+//         // const claim1s = await GameContract.ClaimSingleGame(16,0,4444);
+//         // await claim1s.wait();
+  
+//         // const claim2s = await GameContract.ClaimSingleGame(16,1,444);
+//         // await claim2s.wait();
+  
+//         // console.log(await GameContract.getTablesClaimReadyInRoom(16))
+//         //       console.log(await GameContract.GetCurrentTableInRoom(16,0))
+  
+//         console.log(await GameContract.getTablesClaimReadyInRoom(16))
+  
+  
+//         const claimtwo = await GameContract.claimReadyTablesInRoom(16,125125);
+//         await claimtwo.wait()
+  
+   
+     
+  
+       
+  
+  
+  
+        
+  
+//         // const claim1 = await GameContract.ClaimSingleGame(16,0,215125);
+//         // await claim1.wait()
+  
+  
+  
+  
+  
+  
+  
+  
+//     });
+  
+  
+  
+  
+  
+//   });

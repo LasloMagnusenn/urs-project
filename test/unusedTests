@@ -1,0 +1,2151 @@
+
+//   it("10 spades", async function() {
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     // for (let index = 1; index <=10; index++) {
+
+//     //     // покупка 16 токенов от 1 до 10
+//     //   const tx = await MintContract.setSuit(index, "");
+//     // await tx.wait();
+      
+//     // }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+//       //reduct time  (следует сделать view функцией?)
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+      
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(18000)
+
+      
+//   });
+
+
+
+//   it("8 spades and 2 hearts", async function() {
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     // for (let index = 1; index <=10; index++) {
+
+//     //     // покупка 16 токенов от 1 до 10
+//     //   const tx = await MintContract.setSuit(index, "");
+//     // await tx.wait();
+      
+//     // }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+//       //reduct time  (следует сделать view функцией?)
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+      
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(18000)
+
+      
+//   });
+
+  
+//   it("8 spades and 2 red ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=2; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "h");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(4))
+
+      
+//   });
+
+
+  
+//   it("8 spades and 2 black ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=2; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "c");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(4))
+
+      
+//   });
+
+
+//   it("6 spades and 4 red ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=4; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "d");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(3))
+
+      
+//   });
+
+
+  
+//   it("6 spades and 4 black ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=4; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "c");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(3))
+
+      
+//   });
+
+
+
+
+
+
+  
+//   it("5 spades and 5 red ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=5; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "h");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(2))
+
+      
+//   });
+
+
+  
+  
+//   it("5 spades and 5 black  ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=5; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "c");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(2))
+
+      
+//   });
+
+
+  
+//   it("4 spades and 6 red  ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=6; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "h");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(1))
+
+      
+//   });
+
+
+  
+  
+//   it("4 spades and 6 black  ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=6; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "c");
+//     await tx.wait();
+      
+//     }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(1))
+
+      
+//   });
+  
+
+  
+//   it("5 red and  5 black  ", async function() {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+  
+    
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//     const tx0 = await MintContract.smartMint(10,16, {value: 1600});
+//     await tx0.wait();
+
+//       //   set мастей
+//     for (let index = 1; index <=5; index++) {
+
+//         // покупка 16 токенов от 1 до 10
+//       const tx = await MintContract.setSuit(index, "h");
+//     await tx.wait();
+      
+//     }
+//     for (let index = 6; index <=10; index++) {
+
+//       // покупка 16 токенов от 1 до 10
+//     const tx = await MintContract.setSuit(index, "c");
+//   await tx.wait();
+    
+//   }
+
+//     // заход в игру 
+
+//     const tx1 = await GameContract.BulkEnterInGame(16,0,[1,2,3,4,5,6,7,8,9,10]);
+//     await tx1.wait();
+
+//       let currentTable =  await GameContract.GetCurrentTableInRoom(16,0)
+//       expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+
+//    const tx2 = await GameContract.ReductWithoutTrump(16,0);
+//     await tx2.wait();
+
+//       // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//       // 8 spades and 2 red
+//       expect((await GameContract.GetCurrentTableInRoom(16,0)).internalGameReduction).to.equal(convertToSeconds(1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//       //////////////
+//       ///////////
+//       ///////////////
+//       ////////////////
+//       /////////////
+
+
+      
+
+//   //   test trumps separately
+
+
+
+//   // it("10 trumps", async function () {
+
+//   //   function convertToSeconds(hours) {
+//   //     var seconds = hours * 3600;
+//   //     return seconds;
+//   //   }
+
+
+//   //   const { GameContract, MintContract } = await loadFixture(deploy);
+
+
+//   //   //   set мастей
+//   //   // for (let index = 1; index <=5; index++) {
+
+//   //   //     // покупка 16 токенов от 1 до 10
+//   //   //   const tx = await MintContract.setSuit(index, "h");
+//   //   // await tx.wait();
+
+//   //   // }
+
+//   //   // заход в игру 
+
+    
+
+//   //   const tx1 = await GameContract.BulkEnterInGame(16, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+//   //   await tx1.wait();
+
+//   //   let currentTable = await GameContract.GetCurrentTableInRoom(16, 0)
+//   //   expect(currentTable.internalGameReduction).to.equal(BigInt(0));
+
+//   //   const tx2 = await GameContract.ReductTrump(16, 0);
+//   //   await tx2.wait();
+
+//   //   // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//   //   // 8 spades and 2 red
+//   //   expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+//   // });
+
+
+
+  
+//   it("10 trumps and 2 h d c  ", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+
+//     //   set мастей
+  
+
+
+     
+// async function setSuits() {
+
+//   const tx2 = await MintContract.setSuit(11, "d")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(12, "d")
+//   await tx23.wait();
+
+
+//   const tx22 = await MintContract.setSuit(21, "h")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(22, "h")
+//   await tx232.wait();
+
+
+//   const tx222 = await MintContract.setSuit(31, "c")
+//   await tx222.wait();
+
+//   const tx2322 = await MintContract.setSuit(32, "c")
+//   await tx2322.wait();
+
+// }
+// setSuits()
+
+
+
+
+
+//     // заход в игру 
+
+
+
+//     // const tx1 = await GameContract.BulkEnterInGame(16, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); // 10 spades trump
+//     // await tx1.wait();
+
+
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+//     for (let index = 31; index <= 40 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 3, [index]); // 10 spades trump
+//       await tx1.wait();
+      
+      
+//     }
+
+
+  
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+//     let currentTable3 = await GameContract.GetCurrentTableInRoom(16, 3)
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable3.internalGameReduction).to.equal(BigInt(0));
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     const tx3 = await GameContract.ReductTrump(16, 3);
+//     await tx3.wait();
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 3)).internalGameReduction).to.equal(convertToSeconds(4))
+
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+//   it("6 trumps and 4 h d c  ", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+
+//     //   set мастей
+  
+
+
+     
+// async function setSuits() {
+
+//   const tx2 = await MintContract.setSuit(11, "h")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(12, "h")
+//   await tx23.wait();
+
+//   const tx2h = await MintContract.setSuit(13, "h")
+//   await tx2h.wait();
+
+//   const tx23h = await MintContract.setSuit(14, "h")
+//   await tx23h.wait();
+
+
+
+//   const tx22 = await MintContract.setSuit(21, "d")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(22, "d")
+//   await tx232.wait();
+
+  
+//   const tx22f = await MintContract.setSuit(23, "d")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(24, "d")
+//   await tx23f2.wait();
+
+  
+
+//   const tx222 = await MintContract.setSuit(31, "c")
+//   await tx222.wait();
+
+//   const tx2322 = await MintContract.setSuit(32, "c")
+//   await tx2322.wait();
+  
+//   const tx2222 = await MintContract.setSuit(33, "c")
+//   await tx2222.wait();
+
+//   const tx23222 = await MintContract.setSuit(34, "c")
+//   await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+//     for (let index = 31; index <= 40 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 3, [index]); // 10 spades trump
+//       await tx1.wait();
+      
+      
+//     }
+
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+//     let currentTable3 = await GameContract.GetCurrentTableInRoom(16, 3)
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable3.internalGameReduction).to.equal(BigInt(0));
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     const tx3 = await GameContract.ReductTrump(16, 3);
+//     await tx3.wait();
+
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 3)).internalGameReduction).to.equal(convertToSeconds(2))
+
+
+//   });
+
+
+
+
+  
+  
+//   it("trump is hearts, 10 trumps", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+    
+//     const setTrump = await GameContract.setTrump(1);
+//     setTrump.wait()
+
+
+//     for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "h")
+//       set.wait();
+//     }
+
+
+
+  
+//     // заход в игру 
+
+
+
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+  
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+//   it("trump is hearts, 8 trumps and 2 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(1);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "h")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+
+    
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "d")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "d")
+//   await tx232.wait();
+
+  
+//   const tx22f = await MintContract.setSuit(21, "c")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "c")
+//   await tx23f2.wait();
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(4))
+
+
+//   });
+
+
+
+
+
+
+
+
+  
+//   it("trump is hearts, 6 trumps and 4 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(1);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "h")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+     
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+//   const tx222 = await MintContract.setSuit(3, "")
+//   await tx222.wait();
+
+//   const tx223 = await MintContract.setSuit(4, "")
+//   await tx223.wait();
+
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "d")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "d")
+//   await tx232.wait();
+  
+  
+//   const tx5 = await MintContract.setSuit(13, "d")
+//   await tx5.wait();
+
+//   const f = await MintContract.setSuit(14, "d")
+//   await f.wait();
+
+
+  
+//   const tx22f = await MintContract.setSuit(21, "c")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "c")
+//   await tx23f2.wait();
+
+
+    
+//   const h = await MintContract.setSuit(23, "c")
+//   await h.wait();
+
+//   const d = await MintContract.setSuit(24, "c")
+//   await d.wait();
+
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(2))
+
+
+//   });
+
+
+
+
+
+
+
+
+
+  
+  
+//   it("diamonds is hearts, 10 trumps", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+    
+//     const setTrump = await GameContract.setTrump(2);
+//     setTrump.wait()
+
+
+//     for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "d")
+//       set.wait();
+//     }
+
+
+
+  
+//     // заход в игру 
+
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+  
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+//   it("trump is diamonds, 8 trumps and 2 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(2);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "d")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+
+     
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "h")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "h")
+//   await tx232.wait();
+
+  
+//   const tx22f = await MintContract.setSuit(21, "c")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "c")
+//   await tx23f2.wait();
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(4))
+
+
+//   });
+
+
+
+
+
+  
+
+  
+//   it("trump is diamonds, 6 trumps and 4 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(2);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "d")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+
+     
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+//   const tx222 = await MintContract.setSuit(3, "")
+//   await tx222.wait();
+
+//   const tx223 = await MintContract.setSuit(4, "")
+//   await tx223.wait();
+
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "h")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "h")
+//   await tx232.wait();
+  
+  
+//   const tx5 = await MintContract.setSuit(13, "h")
+//   await tx5.wait();
+
+//   const f = await MintContract.setSuit(14, "h")
+//   await f.wait();
+
+
+  
+//   const tx22f = await MintContract.setSuit(21, "c")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "c")
+//   await tx23f2.wait();
+
+
+    
+//   const h = await MintContract.setSuit(23, "c")
+//   await h.wait();
+
+//   const d = await MintContract.setSuit(24, "c")
+//   await d.wait();
+
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+   
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(2))
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+//   //////////////////////////
+
+
+
+
+
+
+  
+
+  
+  
+//   it("diamonds is clubs, 10 trumps", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+    
+//     const setTrump = await GameContract.setTrump(3);
+//     setTrump.wait()
+
+
+//     for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "c")
+//       set.wait();
+//     }
+
+
+
+  
+//     // заход в игру 
+
+
+
+//     const tx1 = await GameContract.BulkEnterInGame(16, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); // 10 clubs trump
+//     await tx1.wait();
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+ 
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+  
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(6))
+
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+//   it("trump is clubs, 8 trumps and 2 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(3);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "c")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+
+    
+// // for (var i = 1; i <= 40; i++) {
+// //   // Используем оператор switch для вызова разных функций для каждой десятки элементов
+// //   switch (Math.ceil(i / 10)) {
+// //     case 1:
+// //     // first ten are spades
+// //       break;
+// //     case 2:
+
+// //       console.log(i + 'in group 2')
+// //       const setSuitTx = await MintContract.setSuit(i, "h" ) //red
+
+
+// //       break;
+// //     case 3:
+ 
+// //       console.log(i + 'in group 3')
+// //       const setSuitTx1 = await MintContract.setSuit(i, "d" ) // red
+
+
+// //       break;
+
+// //       case 4:
+ 
+// //       console.log(i + 'in group 3')
+// //       const setSuitTx2 = await MintContract.setSuit(i, "c" ) //black
+
+
+// //       break;
+// //     // добавьте другие случаи для других групп
+// //     default:
+// //       break;
+// //   }
+// // }
+
+     
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "h")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "h")
+//   await tx232.wait();
+
+  
+//   const tx22f = await MintContract.setSuit(21, "d")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "d")
+//   await tx23f2.wait();
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+    
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(4))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(4))
+
+
+//   });
+
+
+
+
+
+  
+
+  
+//   it("trump is clubs, 6 trumps and 4 other cards", async function () {
+
+//     function convertToSeconds(hours) {
+//       var seconds = hours * 3600;
+//       return seconds;
+//     }
+
+
+//     const { GameContract, MintContract } = await loadFixture(deploy);
+
+//       const set = await GameContract.setTrump(3);
+//       set.wait();
+
+//       for (let index = 1; index <= 40; index++) {
+//         const set = await MintContract.setSuit(index, "c")
+//       set.wait();
+//     }
+
+
+//     //   set мастей
+  
+
+     
+// async function setSuits() {
+
+
+   
+//   const tx2 = await MintContract.setSuit(1, "")
+//   await tx2.wait();
+
+//   const tx23 = await MintContract.setSuit(2, "")
+//   await tx23.wait();
+
+//   const tx222 = await MintContract.setSuit(3, "")
+//   await tx222.wait();
+
+//   const tx223 = await MintContract.setSuit(4, "")
+//   await tx223.wait();
+
+
+
+
+//   const tx22 = await MintContract.setSuit(11, "h")
+//   await tx22.wait();
+
+//   const tx232 = await MintContract.setSuit(12, "h")
+//   await tx232.wait();
+  
+  
+//   const tx5 = await MintContract.setSuit(13, "h")
+//   await tx5.wait();
+
+//   const f = await MintContract.setSuit(14, "h")
+//   await f.wait();
+
+
+  
+//   const tx22f = await MintContract.setSuit(21, "d")
+//   await tx22f.wait();
+
+//   const tx23f2 = await MintContract.setSuit(22, "d")
+//   await tx23f2.wait();
+
+
+    
+//   const h = await MintContract.setSuit(23, "d")
+//   await h.wait();
+
+//   const d = await MintContract.setSuit(24, "d")
+//   await d.wait();
+
+
+
+//   // const tx222 = await MintContract.setSuit(31, "c")
+//   // await tx222.wait();
+
+//   // const tx2322 = await MintContract.setSuit(32, "c")
+//   // await tx2322.wait();
+
+
+  
+//   // const tx2222 = await MintContract.setSuit(33, "c")
+//   // await tx2222.wait();
+
+//   // const tx23222 = await MintContract.setSuit(34, "c")
+//   // await tx23222.wait();
+
+// }
+
+// setSuits()
+
+
+
+
+//     // заход в игру 
+
+
+
+
+    
+//     for (let index = 1; index <= 10 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 0, [index]); // 10 spades trump
+//       await tx1.wait();
+
+//     }
+
+//     for (let index = 11; index <= 20 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 1, [index]); // 10 spades trump
+//       await tx1.wait();
+ 
+      
+//     }
+
+
+//     for (let index = 21; index <= 30 ; index++) {
+//       const tx1 = await GameContract.BulkEnterInGame(16, 2, [index]); // 10 spades trump
+//       await tx1.wait();
+  
+//     }
+
+
+
+
+
+//     let currentTable0 = await GameContract.GetCurrentTableInRoom(16, 0)
+//     let currentTable1 = await GameContract.GetCurrentTableInRoom(16, 1)
+//     let currentTable2 = await GameContract.GetCurrentTableInRoom(16, 2)
+   
+     
+//     expect(currentTable0.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable1.internalGameReduction).to.equal(BigInt(0));
+//     expect(currentTable2.internalGameReduction).to.equal(BigInt(0));
+   
+
+//     const tx0 = await GameContract.ReductTrump(16, 0);
+//     await tx0.wait();
+
+//     const tx1w = await GameContract.ReductTrump(16, 1);
+//     await tx1w.wait();
+
+//     const tx2 = await GameContract.ReductTrump(16, 2);
+//     await tx2.wait();
+
+//     // console.log((await GameContract.GetCurrentTableInRoom(16,0)))
+//     // 8 spades and 2 red
+
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 0)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 1)).internalGameReduction).to.equal(convertToSeconds(2))
+
+//     expect((await GameContract.GetCurrentTableInRoom(16, 2)).internalGameReduction).to.equal(convertToSeconds(2))
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+//   //////////////////
+//   //////////////////
+//   ///////////////////
+//   /////////////////
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+      
+//   });
+
+
+
+
+
+
+
+
+
+// ///////////
+// /////////
+// ///////////
+// ////////////
+
+
+// import { loadFixture, time } from "@nomicfoundation/hardhat-network-helpers";
+// import { expect } from "chai";
+// import { ethers } from "hardhat";
+// import BigNumber from 'big-number'
+// import { GameContract, GameContract__factory, MintContract, MintContract__factory } from "../typechain-types"
+// import  timestamp from 'time-stamp';
+// import { days } from "@nomicfoundation/hardhat-network-helpers/dist/src/helpers/time/duration";
+
+
+// function convertToSeconds(hours) {
+//   var seconds = hours * 3600;
+//   return seconds;
+// }
+
+
+
+// function convert(unixtimestamp) {
+//   var months_arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+//   var date = new Date(unixtimestamp * 1000);
+//   var year = date.getFullYear();
+//   var month = months_arr[date.getMonth()];
+//   var day = date.getDate();
+//   var hours = date.getHours();
+//   var minutes = "0" + date.getMinutes();
+//   var seconds = "0" + date.getSeconds();
+//   var fulldate = month + ' ' + day + '-' + year + ' ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+//   var convdataTime = month + ' ' + day;
+//   return fulldate;
+// }
+
+// describe("deploy contracts", function () {
+//   async function deploy() {
+//     const [acc1, acc2] = await ethers.getSigners();
+
+//     const MintContractFactory = await ethers.getContractFactory("MintContract");
+//     const MintContract: MintContract = await MintContractFactory.deploy();
+//     await MintContract.deployed();
+
+//     const GameContractFactory = await ethers.getContractFactory("GameContract");
+//     const GameContract: GameContract = await GameContractFactory.deploy(MintContract.address);
+//     await GameContract.deployed();
+
+
+//     const tx0 = await MintContract.smartMint(100, 16, { value: 10000 });
+//     await tx0.wait();
+
+
+//     const createTable1 = await GameContract.createTableInRoom(16);
+//     const createTable2 = await GameContract.createTableInRoom(16);
+//     const createTable3 = await GameContract.createTableInRoom(16);
+    
+//     const createTable4 = await GameContract.createTableInRoom(16);
+//     const createTable5 = await GameContract.createTableInRoom(16);
+//     const createTable6 = await GameContract.createTableInRoom(16);
+
+
+//     // итого имеем 4 стола в 16 руме
+
+
+    
+
+//     return { GameContract, MintContract, acc1, acc2 }
+//   }
+
+
+
+
+//   // нужно заполнить 2 игры
+
+//   it("fulfill 2 games", async function() {
+
+
+//     const { GameContract, acc1, MintContract } = await loadFixture(deploy);
+  
+
+
+//     //   console.log(await MintContract.viewNFTRoomLevel(1))
+//     // const decr1 = await MintContract.decrNFTRoomLevel(1);
+//     // await decr1.wait()
+//     // const decr2 = await MintContract.decrNFTRoomLevel(1);
+//     // await decr2.wait()
+//     // console.log(await MintContract.viewNFTRoomLevel(1))
+
+
+
+    
+   
+
+
+//       const enter1 = await  GameContract.advancedBulkEnterInGame(16,0, [1,2,3,4,5,6,7,8,9,10])
+//       await enter1.wait()
+
+//       const enter2 = await  GameContract.advancedBulkEnterInGame(16,1, [11,12,13,14,15,16,17,18,19,20])
+//       await enter2.wait()
+
+
+      
+
+//       const enter3 = await  GameContract.advancedBulkEnterInGame(16,3, [21,22,23,24,25,26,27,28,29,30])
+//       await enter3.wait()
+
+//       const enter4 = await  GameContract.advancedBulkEnterInGame(16,4, [41,42,43,44,45,46,47,48,49,50])
+//       await enter4.wait()
+
+
+
+    
+//       // const gameOneDuration = await GameContract.getGameDuration(16,0);
+//       // console.log(gameOneDuration)
+    
+//       // console.log(convert(await time.latest()))
+
+//       await time.increase(86401);
+
+//       // console.log(convert(await time.latest()))
+
+//       // const claim1s = await GameContract.ClaimSingleGame(16,0,4444);
+//       // await claim1s.wait();
+
+//       // const claim2s = await GameContract.ClaimSingleGame(16,1,444);
+//       // await claim2s.wait();
+
+//       // console.log(await GameContract.getTablesClaimReadyInRoom(16))
+//       //       console.log(await GameContract.GetCurrentTableInRoom(16,0))
+
+//       console.log(await GameContract.getTablesClaimReadyInRoom(16))
+
+
+//       // const claimtwo = await GameContract.claimReadyTablesInRoom(16,125125);
+//       // await claimtwo.wait()
+
+ 
+   
+
+     
+
+
+
+      
+
+//       // const claim1 = await GameContract.ClaimSingleGame(16,0,215125);
+//       // await claim1.wait()
+
+
+
+
+
+
+
+
+//   });
+
+
+
+
+
+// });
