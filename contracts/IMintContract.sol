@@ -64,4 +64,7 @@ interface IMintContract {
             function payoutForRefunder(address _refunder, uint _value) external;
      function _claimBurn(uint256 tokenId)  external;
 
+
+            function _exists(uint256 tokenId) external view returns (bool);
+
 }

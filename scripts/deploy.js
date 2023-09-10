@@ -13,6 +13,7 @@ const game = require("../artifacts/contracts/GameContract.sol/GameContract.json"
 const reduct = require("../artifacts/contracts/Reduct.sol/Reduct.json");
 const helper = require("../artifacts/contracts/Helper.sol/Helper.json");
 const helper1 = require("../artifacts/contracts/Helper1.sol/Helper1.json");
+const helper2 = require("../artifacts/contracts/Helper2.sol/Helper2.json");
 
 
 
@@ -82,6 +83,18 @@ async function deployContract() {
     console.log('helperContract1 +');
 
 
+      
+    
+  const HelperFactory2 = new ethers.ContractFactory(helper2.abi, helper2.bytecode, wallet);
+
+  const helperContract2 = await HelperFactory2.deploy(mintContract.address);
+
+  await helperContract2.deployed();
+
+  
+  
+    console.log('helperContract2 +');
+
 
     
   const ReductFactory = new ethers.ContractFactory([], reduct.bytecode, wallet);
@@ -99,7 +112,7 @@ async function deployContract() {
 
 const GameContractFactory = new ethers.ContractFactory(game.abi, game.bytecode, wallet)
 
-const GameContract = await GameContractFactory.deploy(mintContract.address, raffletokenContract.address, raffleNFTContract.address, helperContract.address, helperContract1.address);
+const GameContract = await GameContractFactory.deploy(mintContract.address, raffletokenContract.address, raffleNFTContract.address, helperContract.address, helperContract1.address, helperContract2.address);
 
 await GameContract.deployed();
 
@@ -114,10 +127,11 @@ console.log('GameContract +');
 
 const helperDeployed = new ethers.Contract(helperContract.address, helper.abi, wallet);
 const helperDeployed1 = new ethers.Contract(helperContract1.address, helper1.abi, wallet);
+const helperDeployed2 = new ethers.Contract(helperContract2.address, helper2.abi, wallet);
 const raffleNFTDeployed = new ethers.Contract(raffleNFTContract.address, raffleNFT.abi, wallet);
 const raffleTokenDeployed = new ethers.Contract(raffletokenContract.address, raffleTOken.abi, wallet);
 const mintContractDeployed = new ethers.Contract(mintContract.address, MintContract.abi, wallet);
-
+const gameContractDeployed = new ethers.Contract(GameContract.address, game.abi, wallet);
 const reductDeployed = new ethers.Contract(reductContract.address, reduct.abi, wallet);
 
 console.log("starting after deploy settings")
@@ -135,9 +149,14 @@ await helperDeployed1.setGameContract(GameContract.address)
 
 await helperDeployed1.setGameContract(helperContract.address)
 
+await helperDeployed2.setGameContract(GameContract.address)
+
 
 
 await mintContractDeployed.setGameContract(GameContract.address)
+
+// await gameContractDeployed.setPrizeRadioChoice();
+
 
 console.log("finishing after deploy settings")
 
@@ -209,6 +228,9 @@ const mintContractData = JSON.stringify(MintContract.abi);
 const gameContractData = JSON.stringify(game.abi);
 const reductContractData = JSON.stringify(reduct.abi);
 const helperContractData = JSON.stringify(helper.abi);
+const helper1ContractData = JSON.stringify(helper1.abi);
+const helper2ContractData = JSON.stringify(helper2.abi);
+
 
 // Создаем и записываем данные в файлы
 createAndWriteFile(`${path}raffleTokenAbi${datePrefix}.json`, raffleTokenData);
@@ -216,6 +238,8 @@ createAndWriteFile(`${path}nftContractAbi${datePrefix}.json`, mintContractData);
 createAndWriteFile(`${path}gameContractAbi${datePrefix}.json`, gameContractData);
 createAndWriteFile(`${path}reductContractAbi${datePrefix}.json`, reductContractData);
 createAndWriteFile(`${path}helperContractAbi${datePrefix}.json`, helperContractData);
+createAndWriteFile(`${path}helper1ContractAbi${datePrefix}.json`, helper1ContractData);
+createAndWriteFile(`${path}helper2ContractAbi${datePrefix}.json`, helper2ContractData);
 
 
 
@@ -223,7 +247,8 @@ createAndWriteFile(`${path}helperContractAbi${datePrefix}.json`, helperContractD
 
 
 
-console.log(` raffleToken has been deployed to: ${raffletokenContract.address}\n MintContract has been deployed to:  ${mintContract.address}\n GameContract has been deployed to: ${GameContract.address} \n reduct has been deployed to: ${reductContract.address} \n helper has been deployed to: ${helperContract.address}`)
+
+console.log(` raffleToken has been deployed to: ${raffletokenContract.address}\n MintContract has been deployed to:  ${mintContract.address}\n GameContract has been deployed to: ${GameContract.address} \n reduct has been deployed to: ${reductContract.address} \n helper has been deployed to: ${helperContract.address}\n helper1 has been deployed to: ${helperContract1.address}\n helper2 has been deployed to: ${helperContract2.address}`)
 
 
 

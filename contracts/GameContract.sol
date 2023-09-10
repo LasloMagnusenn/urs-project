@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./IHelper.sol";
 import "./IHelper1.sol";
-
+import "./IHelper2.sol";
 
 // сделать создание румов для тестирования удобнее
 // добавить темп дев функции для работы со столами
@@ -51,15 +51,25 @@ contract GameContract is Ownable {
     IReduct public Reduct;
     IHelper public helper; 
     IHelper1 public helper1;
+    IHelper2 public helper2;
 
-    uint public raffleNFTTokenId = 1;
 
+    // function viewRaffleTokenAddress() public view returns(address) {
+    //     return address(RaffleToken);
+    // }
+
+    // возвращает true если токен задан
+    function isRaffleTokenSet() public view returns(bool) {
+                return (address(RaffleToken) != address(0)) ? true : false;
+
+    }
 
 
 
     function sendRaffleNFTToWinner(address _winner, uint _tokenId) public {
 
         // всякие проверки если нужны
+                RaffleNFT.approve(_winner, _tokenId);
 
                 RaffleNFT.safeTransferFrom(address(this), _winner, _tokenId);
             console.log("success");
@@ -76,16 +86,7 @@ contract GameContract is Ownable {
     }
 
 
-    function isOwnerOfRaffleNFT() public view returns(bool) {
-
-        if(RaffleNFT.ownerOf(raffleNFTTokenId) == address(this) ) {
-            return true;
-        }
-        return false;
-
-    }
-
-
+ 
 
 
 
@@ -114,7 +115,7 @@ contract GameContract is Ownable {
     // либо распределение RaffleToken = 2
     // либо розыгрыш какой то одной дорогой нфт = 3
 
-    function setPrizeRadioChoise(uint8 _value) public {
+    function setPrizeRadioChoice(uint8 _value) public {
         prizeRadioChoice = _value;
     }
 
@@ -286,6 +287,10 @@ contract GameContract is Ownable {
         return blackTable.playersNow;
     }
 
+    function getBlackTablePlayerTimeMarkByIndex(uint _index) public view returns(uint) {
+        return blackTable.playersTimeMarks[_index];
+    }
+
     function deletePlayerInBlackRoomByIndex(uint256 _index, uint256 _tokenId) public {
 
         blackTable.players[_index] = address(0);
@@ -403,6 +408,11 @@ contract GameContract is Ownable {
         return blackTable.raffleNFTTokenId;
     }
 
+        function isRaffleNFTSet() public view returns(bool) {
+                return (address(RaffleNFT) != address(0)) ? true : false;
+
+    }
+
   
 
 
@@ -437,7 +447,7 @@ contract GameContract is Ownable {
 
     blackTableStruct public blackTable;
 
-       constructor( address _MintContract, address _RaffleToken, address _RaffleNFT, address _helper, address _helper1) {
+       constructor( address _MintContract, address _RaffleToken, address _RaffleNFT, address _helper, address _helper1, address _helper2) {
 
               
            
@@ -447,6 +457,7 @@ contract GameContract is Ownable {
         Collection = IMintContract(_MintContract);
         helper = IHelper(_helper);
         helper1 = IHelper1(_helper1);
+        helper2 = IHelper2(_helper2);
 
         //
         // bulkCreateTablesInRoom(2, 3);
@@ -478,9 +489,13 @@ contract GameContract is Ownable {
 
           blackTable.stakingRate = 10;
           blackTable.amountPlayersUntilCurrentRaffle = 12;
-          blackTable.amountWinnersToPayout = 3;
+          blackTable.amountWinnersToPayout = 1;
+          blackTable.amountTokensForRaffle = 50;
+          blackTable.raffleNFTTokenId = 1;
                 
           blackTable.timeUntilRaffleExecution = 1 minutes;
+
+          setPrizeRadioChoice(3);
  
         
         
@@ -871,6 +886,10 @@ contract GameContract is Ownable {
         return allTables[_roomLevel][_table].status;
     }
 
+
+    function getBlackTableStakingRate() public view returns(uint) {
+        return blackTable.stakingRate;
+    }
 
     
      function advancedBulkEnterInGameWithPlace(
@@ -1365,7 +1384,7 @@ contract GameContract is Ownable {
 
         uint counter;
 
-        for (uint256 i = 0; i < blackTable.playersNow; i++) {
+        for (uint256 i = 0; i < blackTable.players.length; i++) {
           
             if (blackTable.players[i] == _player) {
                 counter++;
@@ -1402,49 +1421,14 @@ contract GameContract is Ownable {
 
     }
 
-    // function getBulkRandomIndex(uint _salt) public view returns(uint256[] memory) {
+    
 
-    //                 uint256[] memory tempres = new uint256[](3);
-
-    //         for (uint256 i = 0; i < 3; i++) {
-    //               tempres[i] = generateRandomWinnerIndex(_salt
-                    
-    //             );
-    //         }
-
-    //         return tempres;
-       
-    // }
-
-    event some(uint256[]  _data);
-
-
-    event ClaimedStakingTokens(address indexed player, uint indexed amount, uint indexed claimTimestamp);
      
     function claimStakingTokensFromBlackRoom() public {
+        helper2.claimStakingTokensFromBlackRoom();
+        
         // раффл должен произойти,
         
-
-                
-    require(blackTable.status == 4, "raffle not happened yet");
-
-    //     // на каждый timeMark делаем исчисление
-       uint256[] memory tempIndexes = getIndexesOfPlayerInBlackRoom(tx.origin);
-
-
-
-    for (uint i = 0; i < tempIndexes.length ; i++)  {
-          uint256 reward = ((blackTable.lastGameFinishedAt -
-            blackTable.playersTimeMarks[tempIndexes[i]]) / blackTable.stakingRate);
-
-            sendRaffleTokens(tx.origin, reward);
-            emit ClaimedStakingTokens(getBlackTablePlayerByIndex(tempIndexes[i]), reward, block.timestamp);
-            console.log("reward", reward);
-            
-        
-     
-    }
-  
 
       
     }
@@ -1545,6 +1529,10 @@ contract GameContract is Ownable {
     
     function setBlackTableLastGameFinishedAt(uint _value) public {
         blackTable.lastGameFinishedAt = _value;
+    }
+
+    function getBlackTableLastGameFinishedAt() public view returns(uint) {
+        return blackTable.lastGameFinishedAt;
     }
 
     function incrBlackTableSerialNumber() public {
@@ -1772,7 +1760,6 @@ contract GameContract is Ownable {
 
     }
 
-    function acceptMoney() public {}
 
     receive() external payable {}
 
@@ -1801,34 +1788,7 @@ contract GameContract is Ownable {
     
 
     function refundYourNFT(uint256[] calldata _tokenIds) public {
-                //  //may need add arguments for other blackTables?
-                require(blackTable.status == 3, "black table is not fullfiled");
-                require(block.timestamp <= globalLastGameFinishedAt + 3 hours, "too late");
-                require(!bulkCheckNotTransferable(_tokenIds), "one of tokens in game");
-                
-
-        for (uint256 i = 0; i < _tokenIds.length; i++) {
-         
-            require(
-                !Collection.viewIsCommon(_tokenIds[i]),
-                "not genesis token"
-            );
-
-            
-
-            Collection.burn(_tokenIds[i]);
-
-            // uint value = (Collection.viewCosts(Collection.viewNFTRoomLevel(_tokenIds[i]) * refandRate) / 100);
-            uint value = Collection.viewCosts(Collection.viewNFTRoomLevel(_tokenIds[i]));
-
-
-            Collection.payoutForRefunder(msg.sender,  value);
-
-
-            console.log(
-                Collection.viewCosts(Collection.viewNFTRoomLevel(_tokenIds[i]))
-            );
-        }
+        helper2.refundYourNFT(_tokenIds);
     }
 
     function isTableClaimReady(uint8 _roomLevel, uint256 _table)
