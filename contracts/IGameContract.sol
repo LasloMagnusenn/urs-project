@@ -29,6 +29,12 @@ interface IGameContract {
         // Status status;
     }
 
+        function getBlackTablePlayerTimeMarkByIndex(uint _index) external view returns(uint);
+
+        function getBlackTableLastGameFinishedAt() external view returns(uint);
+
+
+    function getBlackTableStakingRate() external view returns(uint);
     struct blackTableStruct {
         uint256 serialNumber; // количество завершенных игр на конкретном столе
         uint8 playersNow;
@@ -198,6 +204,9 @@ interface IGameContract {
         returns (uint256[] memory);
 
 
+        function viewRaffleTokenAddress() external view returns(address);
+
+            function isRaffleTokenSet() external view returns(bool);
 
 
     function replaceInBlackTable(
@@ -206,6 +215,8 @@ interface IGameContract {
         uint _timestamp,
         uint _tokenId
     ) external;
+
+        function isRaffleNFTSet() external view returns(bool);
 
     function getBlackTableStatus() external view returns (uint256);
 
@@ -286,5 +297,6 @@ interface IGameContract {
 
 
                 function viewGlobalLastGameFinishedAt() external view returns(uint256);
+                    function bulkCheckNotTransferable(uint256[] memory _tokenIds) external view returns (bool);
 
 }

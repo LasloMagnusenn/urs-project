@@ -2,7 +2,7 @@ import { loadFixture, time } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers  } from "hardhat";
 import BigNumber from 'big-number'
-import { GameContract, GameContract__factory, MintContract, MintContract__factory, RaffleToken, RaffleToken__factory, Reduct, Reduct__factory, Helper, Helper__factory, RaffleNFT, RaffleNFT__factory, Helper1, Helper1__factory } from "../typechain-types"
+import { GameContract, GameContract__factory, MintContract, MintContract__factory, RaffleToken, RaffleToken__factory, Reduct, Reduct__factory, Helper, Helper__factory, RaffleNFT, RaffleNFT__factory, Helper1, Helper1__factory, Helper2, Helper2__factory } from "../typechain-types"
 import  timestamp from 'time-stamp';
 import { days } from "@nomicfoundation/hardhat-network-helpers/dist/src/helpers/time/duration";
 import bigNumber from "big-number";
@@ -12,6 +12,8 @@ function convertToSeconds(hours) {
   var seconds = hours * 3600;
   return seconds;
 }
+
+
 
 
 function getHours(unix_timestamp) {
@@ -74,6 +76,12 @@ describe("deploy contracts", function () {
       const helper1: Helper1 = await helperFactory1.deploy(MintContract.address);
       await helper1.deployed();
 
+           
+      const helperFactory2 = await ethers.getContractFactory("Helper2");
+      const helper2: Helper2 = await helperFactory2.deploy(MintContract.address);
+      await helper1.deployed();
+
+
 
 
 
@@ -85,7 +93,7 @@ describe("deploy contracts", function () {
 
   
       const gameFactory = await ethers.getContractFactory("GameContract");
-      const game: GameContract = await gameFactory.deploy(MintContract.address, token.address, spinach.address, helper.address, helper1.address);
+      const game: GameContract = await gameFactory.deploy(MintContract.address, token.address, spinach.address, helper.address, helper1.address, helper2.address);
       await game.deployed();
 
 
@@ -94,16 +102,16 @@ describe("deploy contracts", function () {
 
       await helper1.setGameContract(game.address);
       await helper1.setHelper(helper.address);
-
-
+      
+      await helper2.setGameContract(game.address)
 
 
       await reduct.setGameContract(game.address);
 
-      await token.mint(acc1.address, 10000)
+      await token.mint(game.address, 10000)
+      await token.mint(MintContract.address, 10000)
 
-      await token.transfer(game.address, 1000)
-      await token.transfer(MintContract.address, 1000)
+
 
       await MintContract.setGameContract(game.address)
 
@@ -159,161 +167,634 @@ describe("deploy contracts", function () {
 
       
   
-      return { game, MintContract, token, spinach, helper, helper1, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 }
+      return { game, MintContract, token, spinach, helper, helper1, helper2, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 }
 
     }
 
-
-
     
+    it("claimBlackRoom for players prizeMintChoice = 2 ", async function() {          
 
-    it("claimBlackRoom for player", async function() {
-  
+
+      
+      
+        const { game, helper, helper2, helper1, spinach, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
           
+        await spinach.safeMint(game.address);
+        await spinach.safeMint(game.address);
+
+        console.log("balance of game contract " + await token.balanceOf(game.address));
+        console.log("balance of helper2 contract " + await token.balanceOf(helper2.address));
 
 
-// const tx2 = await game.connect(acc2).bulkEnterInBlackRoom([11,12,13,14,15])
-// await tx2.wait()
+        // console.log('game address is ' + game.address)
+        // expect(await spinach.ownerOf(1)).to.be.equal(game.address);
+        // console.log(await spinach.ownerOf(1) + ' is owner of 1st token')
+        
+        // await game.sendRaffleNFTToWinner(acc1.address, 1);
+
+        // await spinach.connect(game).approve(acc1.address,1);
+
+        // expect(await spinach.ownerOf(1)).to.be.equal(acc1.address);
+        // console.log(await spinach.ownerOf(1) + ' is owner of 1st token after transfer' )
 
 
-// const tx3= await game.connect(acc3).bulkEnterInBlackRoom([16,17,18,19,20])
-// await tx3.wait()
+        
+        await game.setPrizeRadioChoise(3);
+        
+        await MintContract.newSmartMint(3, 1, { value: 1000000 });
+      
+        await MintContract.connect(acc2).newSmartMint(3, 1, { value: 1000000 });
+      
+        await token.mint(game.address, 1000000);
+      
+        await game.bulkEnterInBlackRoom([1])
+        await game.connect(acc2).bulkEnterInBlackRoom([4])
+      
+        await game.bulkEnterInBlackRoom([2])
+        await game.connect(acc2).bulkEnterInBlackRoom([5])
+      
+        await game.bulkEnterInBlackRoom([3])
+        await game.connect(acc2).bulkEnterInBlackRoom([6])
+      
+        // await game.bulkEnterInBlackRoom([4])
+        // await game.connect(acc2).bulkEnterInBlackRoom([8])
+      
+        // await game.connect(acc2).bulkEnterInBlackRoom([11,12,14,15]);
+      
+      
+      // console.log(await game.getBlackTable())
+      
+      
+      
+      
+      console.log("acc1 tokens before" +  await MintContract.tokensOfOwner(acc1.address))
+      console.log("acc2 tokens before" + await MintContract.tokensOfOwner(acc2.address))
+      
+      
+      
+      
+
+      
+      //////////////////
+      
+      await time.increase(1000);
+      
+      
+      // await helper1.globalDeterminationBlackTable(124124);
+      
+      
+      
+      // console.log(await helper1.getBlackTableWinnersInfo())
+      
+      
+      
+      // console.log(await game.getBlackTable())
+      
+      
+      // / start after determination checking
+      
+      // async function convertBigNumbersToIntegers(): Promise<number[]> {
+      //   const determinationTokens = await helper1.getBlackTableWinnersInfoTempInvolvedTokenIds();
+        
+      //   // Используйте метод map для преобразования BigNumber в обычные числа
+      //   const integerArray = determinationTokens.map((bigNumber) => bigNumber.toNumber());
+        
+      //   return integerArray;
+      // }
+      
+      // // Пример использования
+      // const tokensArray = await convertBigNumbersToIntegers();
+      
+      
+      //  экземплеряр токенов победителей
+      //   const determinationTokens = await helper1.getBlackTableWinnersInfoTempInvolvedTokenIds();
+      // следовательно делаем итерацию от 1 до 6 с исключением этого экземпляра
+      
+      
+      
+      
+      //   check winner tokens credentials
+      // for (let i = 1; i <= 6; i++) {
+      
+      //   expect(await MintContract.isCommon(i)).to.equal(true);
+      
+          
+      //   if(!tokensArray.includes(i)) {
+      //     // если токена нет в массиве победителей токенов
+      //     console.log("check existing of " + i + await MintContract._exists(i))
+          
+      //     expect(await MintContract._exists(i)).to.equal(false);
+      //     expect(await game.isMintPass(i)).to.equal(false);
+      //     expect(await MintContract.viewNotTransferable(i)).to.equal(false);
+      
+      //   } else {
+      
+      //     console.log("check existing of " + i + await MintContract._exists(i))
+      
+      //     // если токен есть в массиве победителей 
+          
+      //     expect(await MintContract._exists(i)).to.equal(true);
+          
+      //     expect(await game.isMintPass(i)).to.equal(true);
+      
+      //     expect(await MintContract.viewNotTransferable(i)).to.equal(false);
+      
+      
+      
+      //   }
+      
+      
+        
+        
+      // }
+      
+      
+      
+      
+      
+      
+      //
 
 
-// const tx4 = await game.connect(acc4).bulkEnterInBlackRoom([21,22,23,24,25,26])
-// await tx4.wait()
+      console.log("token balance before claimBlackRoom " + await token.balanceOf(acc1.address) )
+      console.log("token balance before claimBlackRoom " + await token.balanceOf(acc2.address) )
+      
+      
+      
+      await helper1.claimBlackRoomForPlayer(1124124);
+      await helper1.connect(acc2).claimBlackRoomForPlayer(112224124);
+
+      console.log("current owner of raffle nft is " + await spinach.ownerOf(1));
+
+            console.log(await helper1.getBlackTableWinnersInfo())
+
+      // await helper1.connect(acc2).claimBlackRoomForPlayer(112224124);
+      // console.log(await game.getBlackTable())
+      // console.log("times of acc2 " + await game.returnTimesPlayerInBlackRoom(acc2.address))
+      
+      // console.log("indexes of acc2 " + await game.getIndexesOfPlayerInBlackRoom(acc2.address))
+      
+      // console.log(await game.getBlackTable())
+      
+  
+
+      
+      console.log("acc1 tokens after" + await MintContract.tokensOfOwner(acc1.address))
+      console.log("acc2 tokens after" + await MintContract.tokensOfOwner(acc2.address))
+      
+      
+      //
 
 
-// const tx5 = await game.connect(acc5).bulkEnterInBlackRoom([27])
-// await tx5.wait()
+      console.log("token balance after claimBlackRoom " + await token.balanceOf(acc1.address) )
+      console.log("token balance after claimBlackRoom " + await token.balanceOf(acc2.address) )
+      
+      console.log(await game.getBlackTable())
+      
+    
+      
+      console.log("balance of game contract " + await token.balanceOf(game.address));
+      console.log("balance of helper2 contract " + await token.balanceOf(helper2.address));
 
-  const { game, helper, helper1, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
+      
+      // // // await game.connect(acc2).claimStakingTokensFromBlackRoom();
+      
+      // console.log("acc2 token balance after claimBlackRoom " + await token.balanceOf(acc2.address) )
+      
+      
+      // // console.log(await helper1.getBlackTableWinnersInfo())
+
+      
+      // console.log("acc1 tokens after" + await MintContract.tokensOfOwner(acc1.address))
+      // console.log("acc2 tokens after" + await MintContract.tokensOfOwner(acc2.address))
+
+
+      // ДОБАВИТЬ КЛЕЙМ СТЕЙКИНГ ТОКЕНОВ НА ТО ЖЕ МЕСТО ГДЕ И В МИНТ ПАССАХ    
+      
+      
+      
+      
+      
+        // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));
+      
+        // const receipt = await ethers.provider.getTransactionReceipt(claim.hash);
+        // const interfaceTX = new ethers.utils.Interface(["event blackRoomClaimed(address[] tempWinners, uint256[] tempInvolvedTokenIds, uint256 prizeRadioChoice)"]);
+        // const data = receipt.logs[0].data;
+        // const topics = receipt.logs[0].topics;
+        // const event = interfaceTX.decodeEventLog("blackRoomClaimed", data, topics);
+        // console.log("event now")
+        // console.log(event)
+      
+        //   console.log(await game.isMintPass(event.tempInvolvedTokenIds[0]))
+        // for (let i = 0; i < event.tempInvolvedTokenIds.length; i++) {
+        //   let isMintPass: boolean;
+        //   let isTransferable: boolean;
+        //   isMintPass = await game.isMintPass(event.tempInvolvedTokenIds[i]);
+        //   isTransferable = await MintContract.viewNotTransferable(event.tempInvolvedTokenIds[i])
+        //     expect(isMintPass).to.equal(true);
+        //     expect(isTransferable).to.equal(false);
+      
+        // }
+      
+      
+        // console.log("$$$$$$$$")
+      
+        // // MINTPASSES WORKS CORRECTLY
+      
+      
+        // // test estimate and claim staking rewards;
+      
+      
+        // // event ClaimedStakingTokens(address indexed player, uint indexed amount, uint indexed claimTimestamp)
+      
+            
+      
+      
+      
+        //   // данный клейм меняет свойство 3 токен идсов на минт пассы
+      
+        //   // console.log(await game.getBlackTable())
+      
+        //   console.log("balance before " + await token.balanceOf(acc1.address) )
+        // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));  
+      
+        //   await game.claimStakingTokensFromBlackRoom()
+        //           console.log(await token.balanceOf(acc1.address))
+      
+      
+      
+            
+      
+      
+          
+        // const stak = await game.claimStakingTokensFromBlackRoom();
+        // await stak.wait()
+      
+      
+        // console.log( await token.balanceOf(acc1.address))
+        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      });
+      
+      
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+//     it("claimBlackRoom for player", async function() {          
+
+
+// // const tx2 = await game.connect(acc2).bulkEnterInBlackRoom([11,12,13,14,15])
+// // await tx2.wait()
+
+
+// // const tx3= await game.connect(acc3).bulkEnterInBlackRoom([16,17,18,19,20])
+// // await tx3.wait()
+
+
+// // const tx4 = await game.connect(acc4).bulkEnterInBlackRoom([21,22,23,24,25,26])
+// // await tx4.wait()
+
+
+// // const tx5 = await game.connect(acc5).bulkEnterInBlackRoom([27])
+// // await tx5.wait()
+
+//   const { game, helper, helper1, MintContract, token, acc1, acc2, acc3, acc4, acc5, acc6, acc7, acc8, acc9, acc10 } = await loadFixture(deploy);
     
 
-  await game.setPrizeRadioChoise(1);
+//   await game.setPrizeRadioChoise(1);
   
-  await MintContract.newSmartMint(4, 1, { value: 1000000 });
+//   await MintContract.newSmartMint(3, 1, { value: 1000000 });
 
-  await MintContract.connect(acc2).newSmartMint(4, 1, { value: 1000000 });
+//   await MintContract.connect(acc2).newSmartMint(3, 1, { value: 1000000 });
 
-  await token.mint(game.address, 1000000);
+//   await token.mint(game.address, 1000000);
 
-  await game.bulkEnterInBlackRoom([1])
-  await game.connect(acc2).bulkEnterInBlackRoom([5])
+//   await game.bulkEnterInBlackRoom([1])
+//   await game.connect(acc2).bulkEnterInBlackRoom([4])
 
-  await game.bulkEnterInBlackRoom([2])
-  await game.connect(acc2).bulkEnterInBlackRoom([6])
+//   await game.bulkEnterInBlackRoom([2])
+//   await game.connect(acc2).bulkEnterInBlackRoom([5])
 
-  await game.bulkEnterInBlackRoom([3])
-  await game.connect(acc2).bulkEnterInBlackRoom([7])
+//   await game.bulkEnterInBlackRoom([3])
+//   await game.connect(acc2).bulkEnterInBlackRoom([6])
 
-  // await game.bulkEnterInBlackRoom([4])
-  // await game.connect(acc2).bulkEnterInBlackRoom([8])
+//   // await game.bulkEnterInBlackRoom([4])
+//   // await game.connect(acc2).bulkEnterInBlackRoom([8])
 
-  // await game.connect(acc2).bulkEnterInBlackRoom([11,12,14,15]);
+//   // await game.connect(acc2).bulkEnterInBlackRoom([11,12,14,15]);
 
+
+// // console.log(await game.getBlackTable())
+
+
+
+
+// console.log("acc1 tokens before" +  await MintContract.tokensOfOwner(acc1.address))
+// console.log("acc2 tokens before" + await MintContract.tokensOfOwner(acc2.address))
+
+
+
+
+
+
+// // await time.increase(600);
+
+
+// // const claim = await game.connect(acc2).claimBlackRoom(125125);
+// // await claim.wait()
+
+// // console.log(await game.getBlackTable())
+
+// // const claim = await game.claimBlackRoom(125125);
+// // await claim.wait()
+
+// // console.log(await game.getBlackTable())
+
+
+// //////////////////
+
+// await time.increase(1000);
+
+
+// await helper1.globalDeterminationBlackTable(124124);
+
+
+
+// console.log(await helper1.getBlackTableWinnersInfo())
+
+
+// console.log("acc1 tokens after" + await MintContract.tokensOfOwner(acc1.address))
+// console.log("acc2 tokens after" + await MintContract.tokensOfOwner(acc2.address))
+
+
+
+
+
+// /// start after determination checking
+
+// async function convertBigNumbersToIntegers(): Promise<number[]> {
+//   const determinationTokens = await helper1.getBlackTableWinnersInfoTempInvolvedTokenIds();
+  
+//   // Используйте метод map для преобразования BigNumber в обычные числа
+//   const integerArray = determinationTokens.map((bigNumber) => bigNumber.toNumber());
+  
+//   return integerArray;
+// }
+
+// // Пример использования
+// const tokensArray = await convertBigNumbersToIntegers();
+
+
+// //  экземплеряр токенов победителей
+//   // const determinationTokens = await helper1.getBlackTableWinnersInfoTempInvolvedTokenIds();
+// // следовательно делаем итерацию от 1 до 6 с исключением этого экземпляра
+
+
+
+
+//   // check winner tokens credentials
+// // for (let i = 1; i <= 6; i++) {
+
+// //   expect(await MintContract.isCommon(i)).to.equal(true);
+
+    
+// //   if(!tokensArray.includes(i)) {
+// //     // если токена нет в массиве победителей токенов
+// //     console.log("check existing of " + i + await MintContract._exists(i))
+    
+// //     expect(await MintContract._exists(i)).to.equal(false);
+// //     expect(await game.isMintPass(i)).to.equal(false);
+// //     expect(await MintContract.viewNotTransferable(i)).to.equal(false);
+
+// //   } else {
+
+// //     console.log("check existing of " + i + await MintContract._exists(i))
+
+// //     // если токен есть в массиве победителей 
+    
+// //     expect(await MintContract._exists(i)).to.equal(true);
+    
+// //     expect(await game.isMintPass(i)).to.equal(true);
+
+// //     expect(await MintContract.viewNotTransferable(i)).to.equal(false);
+
+
+
+// //   }
+
+
+  
+  
+// // }
+
+
+
+
+
+
+// ////
+
+
+// await helper1.claimBlackRoomForPlayer(1124124);
+// await helper1.connect(acc2).claimBlackRoomForPlayer(1124124);
+// // console.log(await game.getBlackTable())
+// // console.log("times of acc2 " + await game.returnTimesPlayerInBlackRoom(acc2.address))
+
+// // console.log("indexes of acc2 " + await game.getIndexesOfPlayerInBlackRoom(acc2.address))
 
 // console.log(await game.getBlackTable())
 
 
 
 
-// await time.increase(600);
+// // // trying do claim
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+// // console.log("///")
+
+// // // await game.claimStakingTokensFromBlackRoom();
+
+// console.log("token balance after claimBlackRoom " + await token.balanceOf(acc1.address) )
 
 
-const claim = await game.claimBlackRoom(125125);
-await claim.wait()
-
-console.log(await game.getBlackTable())
 
 
-// // console.log(await helper.generateWinnersForBlackRoom(124124));
+// // // await game.connect(acc2).claimStakingTokensFromBlackRoom();
+
+// console.log("token balance after claimBlackRoom " + await token.balanceOf(acc2.address) )
 
 
 
-// //       console.log(await helper1.getBlackTableWinnersInfoOne())
 
-// // // await helper1.generateWinnersForBlackRoom(124124);
 
-// //       await game.claimBlackRoom(124124);
 
-      const t = await helper1.getBlackTableWinnersInfo();
 
-      console.log("winners indexes raw " +  t.tempWinners)
 
-      const winnersArray = await helper1.getBlackTableWinnersInfoWinners();
 
-      console.log("winners places" + await helper1.getBlackTableWinnersInfoWinnersByPlaces());
-//       console.log("balance of tokens" + await MintContract.tokensOfOwner(acc1.address));
 
-for (let index = 0; index < winnersArray.length; index++) {
+
+
+
+
+// /////////
+
+
+
+
+
+// // // // console.log(await helper.generateWinnersForBlackRoom(124124));
+
+
+
+// // // //       console.log(await helper1.getBlackTableWinnersInfoOne())
+
+// // // // // await helper1.generateWinnersForBlackRoom(124124);
+
+// // // //       await game.claimBlackRoom(124124);
+
+// //       const t = await helper1.getBlackTableWinnersInfo();
+
+// //       console.log("winners indexes raw " +  t.tempWinners)
+
+// //       const winnersArray = await helper1.getBlackTableWinnersInfoWinners();
+
+// //       console.log("winners places" + await helper1.getBlackTableWinnersInfoWinnersByPlaces());
+// // //       console.log("balance of tokens" + await MintContract.tokensOfOwner(acc1.address));
+
+// // for (let index = 0; index < winnersArray.length; index++) {
   
-    console.log("trying" + winnersArray[index])
-    console.log("isMintPass" + await game.isMintPass(winnersArray[index]));
-    console.log("isNotTransferAble" + await MintContract.viewNotTransferable(winnersArray[index]));
+// //     console.log("trying" + winnersArray[index])
+// //     console.log("isMintPass" + await game.isMintPass(winnersArray[index]));
+// //     console.log("isNotTransferAble" + await MintContract.viewNotTransferable(winnersArray[index]));
   
-    // expect(await game.isMintPass(winnersArray[index])).to.equal(true);
-    // expect(await MintContract.viewNotTransferable(winnersArray[index])).to.equal(false);
+// //     // expect(await game.isMintPass(winnersArray[index])).to.equal(true);
+// //     // expect(await MintContract.viewNotTransferable(winnersArray[index])).to.equal(false);
 
   
-}
+// // }
 
-// console.log(await game.getBlackTable())
-
-
-
-console.log(await game.getIndexesOfPlayerInBlackRoom(acc1.address) + "is playerIndexes")
-
-console.log(await MintContract.tokensOfOwner(acc1.address) + "acc1 tokens")
-console.log(await MintContract.tokensOfOwner(acc2.address) + "acc2 tokens")
+// // // console.log(await game.getBlackTable())
 
 
 
-  // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));
+// // console.log(await game.getIndexesOfPlayerInBlackRoom(acc1.address) + "is playerIndexes")
 
-  // const receipt = await ethers.provider.getTransactionReceipt(claim.hash);
-  // const interfaceTX = new ethers.utils.Interface(["event blackRoomClaimed(address[] tempWinners, uint256[] tempInvolvedTokenIds, uint256 prizeRadioChoice)"]);
-  // const data = receipt.logs[0].data;
-  // const topics = receipt.logs[0].topics;
-  // const event = interfaceTX.decodeEventLog("blackRoomClaimed", data, topics);
-  // console.log("event now")
-  // console.log(event)
-
-  //   console.log(await game.isMintPass(event.tempInvolvedTokenIds[0]))
-  // for (let i = 0; i < event.tempInvolvedTokenIds.length; i++) {
-  //   let isMintPass: boolean;
-  //   let isTransferable: boolean;
-  //   isMintPass = await game.isMintPass(event.tempInvolvedTokenIds[i]);
-  //   isTransferable = await MintContract.viewNotTransferable(event.tempInvolvedTokenIds[i])
-  //     expect(isMintPass).to.equal(true);
-  //     expect(isTransferable).to.equal(false);
-
-  // }
+// // console.log(await MintContract.tokensOfOwner(acc1.address) + "acc1 tokens")
+// // console.log(await MintContract.tokensOfOwner(acc2.address) + "acc2 tokens")
 
 
-  // console.log("$$$$$$$$")
 
-  // // MINTPASSES WORKS CORRECTLY
+//   // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));
+
+//   // const receipt = await ethers.provider.getTransactionReceipt(claim.hash);
+//   // const interfaceTX = new ethers.utils.Interface(["event blackRoomClaimed(address[] tempWinners, uint256[] tempInvolvedTokenIds, uint256 prizeRadioChoice)"]);
+//   // const data = receipt.logs[0].data;
+//   // const topics = receipt.logs[0].topics;
+//   // const event = interfaceTX.decodeEventLog("blackRoomClaimed", data, topics);
+//   // console.log("event now")
+//   // console.log(event)
+
+//   //   console.log(await game.isMintPass(event.tempInvolvedTokenIds[0]))
+//   // for (let i = 0; i < event.tempInvolvedTokenIds.length; i++) {
+//   //   let isMintPass: boolean;
+//   //   let isTransferable: boolean;
+//   //   isMintPass = await game.isMintPass(event.tempInvolvedTokenIds[i]);
+//   //   isTransferable = await MintContract.viewNotTransferable(event.tempInvolvedTokenIds[i])
+//   //     expect(isMintPass).to.equal(true);
+//   //     expect(isTransferable).to.equal(false);
+
+//   // }
 
 
-  // // test estimate and claim staking rewards;
+//   // console.log("$$$$$$$$")
+
+//   // // MINTPASSES WORKS CORRECTLY
 
 
-  // // event ClaimedStakingTokens(address indexed player, uint indexed amount, uint indexed claimTimestamp)
+//   // // test estimate and claim staking rewards;
+
+
+//   // // event ClaimedStakingTokens(address indexed player, uint indexed amount, uint indexed claimTimestamp)
 
       
 
 
 
-  //   // данный клейм меняет свойство 3 токен идсов на минт пассы
+//   //   // данный клейм меняет свойство 3 токен идсов на минт пассы
 
-  //   // console.log(await game.getBlackTable())
+//   //   // console.log(await game.getBlackTable())
 
-  //   console.log("balance before " + await token.balanceOf(acc1.address) )
-  // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));  
+//   //   console.log("balance before " + await token.balanceOf(acc1.address) )
+//   // console.log("available to claim   " + await game.estimateStakingRewardsInBlackRoom(acc1.address));  
 
-  //   await game.claimStakingTokensFromBlackRoom()
-  //           console.log(await token.balanceOf(acc1.address))
+//   //   await game.claimStakingTokensFromBlackRoom()
+//   //           console.log(await token.balanceOf(acc1.address))
 
 
 
@@ -321,11 +802,11 @@ console.log(await MintContract.tokensOfOwner(acc2.address) + "acc2 tokens")
 
 
     
-  // const stak = await game.claimStakingTokensFromBlackRoom();
-  // await stak.wait()
+//   // const stak = await game.claimStakingTokensFromBlackRoom();
+//   // await stak.wait()
 
 
-  // console.log( await token.balanceOf(acc1.address))
+//   // console.log( await token.balanceOf(acc1.address))
   
 
 
@@ -342,7 +823,7 @@ console.log(await MintContract.tokensOfOwner(acc2.address) + "acc2 tokens")
 
 
 
-});
+// });
 
 
 
