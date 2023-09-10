@@ -13,5 +13,9 @@ contract RaffleToken is ERC20 {
         _mint(to, amount);
     }
 
+    function decimals() public view override returns(uint8) {
+      return 0;
+    }
+
     
 }

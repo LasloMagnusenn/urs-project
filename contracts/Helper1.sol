@@ -61,6 +61,13 @@ contract Helper1 {
         uint256[] tempInvolvedTokenIds,
         uint256 prizeRadioChoice
     );
+
+    event UserClaimedPartBlackRoom(
+        address _player,
+        uint _value,
+        uint _prizeRadioChoice
+    );
+
     event blackRoomClaimedPrizeRaffleToken(
         address[] tempWinnersAddresses,
         uint256 value,
@@ -72,223 +79,223 @@ contract Helper1 {
         uint256 prizeRadioChoice
     );
 
-    function claimBlackRoom(uint256 _salt) public {
-        require(
-            block.timestamp >=
-                GameContract.getBlackTableReadyToClaimAt() +
-                    GameContract.getBlackTableTimeUntilRaffleExecution(),
-            "try later"
-        );
+    // function claimBlackRoom(uint256 _salt) public {
+    //     require(
+    //         block.timestamp >=
+    //             GameContract.getBlackTableReadyToClaimAt() +
+    //                 GameContract.getBlackTableTimeUntilRaffleExecution(),
+    //         "try later"
+    //     );
 
-        require(
-            GameContract.getBlackTableStatus() != 4,
-            "raffle already happened"
-        );
+    //     require(
+    //         GameContract.getBlackTableStatus() != 4,
+    //         "raffle already happened"
+    //     );
 
-        //сделать проверку что время игры истекло
+    //     //сделать проверку что время игры истекло
 
-        // uint256[] memory tempIndexes = new uint256[](blackTable.amountWinnersToPayout);
-        uint256[] memory tempWinners = helper.generateWinnersForBlackRoom(
-            _salt
-        );
+    //     // uint256[] memory tempIndexes = new uint256[](blackTable.amountWinnersToPayout);
+    //     uint256[] memory tempWinners = helper.generateWinnersForBlackRoom(
+    //         _salt
+    //     );
 
-        address[] memory tempWinnersAddresses = new address[](
-            tempWinners.length
-        );
+    //     address[] memory tempWinnersAddresses = new address[](
+    //         tempWinners.length
+    //     );
 
-        for (uint256 o = 0; o < tempWinners.length; o++) {
-            tempWinnersAddresses[o] = GameContract.getBlackTablePlayerByIndex(
-                tempWinners[o]
-            );
-        }
+    //     for (uint256 o = 0; o < tempWinners.length; o++) {
+    //         tempWinnersAddresses[o] = GameContract.getBlackTablePlayerByIndex(
+    //             tempWinners[o]
+    //         );
+    //     }
 
-        uint256[] memory tempInvolvedTokenIds = new uint256[](
-            GameContract.getBlackTableAmountWinnersToPayout()
-        );
+    //     uint256[] memory tempInvolvedTokenIds = new uint256[](
+    //         GameContract.getBlackTableAmountWinnersToPayout()
+    //     );
 
-        // uint salt = _salt;
-        // Механики по выигрышу
+    //     // uint salt = _salt;
+    //     // Механики по выигрышу
 
-        for (
-            uint256 i = 0;
-            i < GameContract.getBlackTablePlayersLength();
-            i++
-        ) {
-            Collection.setIsCommon(
-                GameContract.getBlackTablePlayingTokenIdByIndex(i),
-                true
-            );
-        }
+    //     for (
+    //         uint256 i = 0;
+    //         i < GameContract.getBlackTablePlayersLength();
+    //         i++
+    //     ) {
+    //         Collection.setIsCommon(
+    //             GameContract.getBlackTablePlayingTokenIdByIndex(i),
+    //             true
+    //         );
+    //     }
 
-        if (GameContract.getBlackTablePrizeRadioChoice() == 1) {
-            //ПРЕВРАЩЕНИЕ В MINT PASS
+    //     if (GameContract.getBlackTablePrizeRadioChoice() == 1) {
+    //         //ПРЕВРАЩЕНИЕ В MINT PASS
 
-            // идет количество итераций равное количество игроков для выигрыша, например у нас стояло количество победителей 3 и даже если игрок один мы делаем 3 прохода и достаем 3 одинаковых индекса игрока ( а вот это странно потому что индексы должны быть разные)
-            for (uint256 i = 0; i < tempWinners.length; i++) {
-                // isMintPass[
-                //     blackTable.playingTokenIds[tempWinners[i]]
-                // ] = true;
+    //         // идет количество итераций равное количество игроков для выигрыша, например у нас стояло количество победителей 3 и даже если игрок один мы делаем 3 прохода и достаем 3 одинаковых индекса игрока ( а вот это странно потому что индексы должны быть разные)
+    //         for (uint256 i = 0; i < tempWinners.length; i++) {
+    //             // isMintPass[
+    //             //     blackTable.playingTokenIds[tempWinners[i]]
+    //             // ] = true;
 
-                GameContract.setIsMintPass(
-                    GameContract.getBlackTablePlayingTokenIdByIndex(
-                        tempWinners[i]
-                    ),
-                    true
-                );
-                // юзер владеет этим токеном и нам не нужно больше ничего менять
-                //     //можем передавать свойство токену таким образом потому что каждый слот отведен под игрока и соответствующий tokenID поменяется у нужного игрока
+    //             GameContract.setIsMintPass(
+    //                 GameContract.getBlackTablePlayingTokenIdByIndex(
+    //                     tempWinners[i]
+    //                 ),
+    //                 true
+    //             );
+    //             // юзер владеет этим токеном и нам не нужно больше ничего менять
+    //             //     //можем передавать свойство токену таким образом потому что каждый слот отведен под игрока и соответствующий tokenID поменяется у нужного игрока
 
-                Collection.setNotTransferable(
-                    GameContract.getBlackTablePlayingTokenIdByIndex(
-                        tempWinners[i]
-                    ),
-                    false
-                );
+    //             Collection.setNotTransferable(
+    //                 GameContract.getBlackTablePlayingTokenIdByIndex(
+    //                     tempWinners[i]
+    //                 ),
+    //                 false
+    //             );
 
-                // размораживаем нфт токен при клейме стола
-                tempInvolvedTokenIds[i] = GameContract
-                    .getBlackTablePlayingTokenIdByIndex(tempWinners[i]);
+    //             // размораживаем нфт токен при клейме стола
+    //             tempInvolvedTokenIds[i] = GameContract
+    //                 .getBlackTablePlayingTokenIdByIndex(tempWinners[i]);
 
-                // добавить строку в функцию tokenURI для отображения минт пассов
-            }
+    //             // добавить строку в функцию tokenURI для отображения минт пассов
+    //         }
 
-            //превращение токенов в минт пассы phase
+    //         //превращение токенов в минт пассы phase
 
-            // получение адресов tempWinners
+    //         // получение адресов tempWinners
 
-            // emit blackRoomClaimedPrizeMintPass(
-            //     tempWinnersAddresses,
-            //     tempInvolvedTokenIds,
-            //     GameContract.getBlackTablePrizeRadioChoice()
-            // );
-        }
+    //         // emit blackRoomClaimedPrizeMintPass(
+    //         //     tempWinnersAddresses,
+    //         //     tempInvolvedTokenIds,
+    //         //     GameContract.getBlackTablePrizeRadioChoice()
+    //         // );
+    //     }
 
-        if (GameContract.getBlackTablePrizeRadioChoice() == 2) {
-            //РОЗЫГРЫШ КАКИХ ТО ТОКЕНОВ ( ПЕРЕД ВЫДАЧЕЙ ТОКЕНОВ ВВЕСТИ АДРЕС КОНТРАКТА ТОКЕНА КОТОРЫЙ РАССЫЛАЕТСЯ И ПО СКОЛЬКО РАССЫЛАТЬ)
-            uint256 value;
-            for (uint256 i = 0; i < tempWinners.length; i++) {
-                value = 1000;
-                // uint256 currentWinnerIndex = generateRandomWinnerIndex(5341531); //генерирует индекс игрока ( кстати в playerCard можно использовать вложеннный маппинг и тогда игрокам давать порядковые индексы от единицы)
-                // tempWinners[i] = currentWinnerIndex; // вставляем сгенерированный индекс в темп массив победителей
+    //     if (GameContract.getBlackTablePrizeRadioChoice() == 2) {
+    //         //РОЗЫГРЫШ КАКИХ ТО ТОКЕНОВ ( ПЕРЕД ВЫДАЧЕЙ ТОКЕНОВ ВВЕСТИ АДРЕС КОНТРАКТА ТОКЕНА КОТОРЫЙ РАССЫЛАЕТСЯ И ПО СКОЛЬКО РАССЫЛАТЬ)
+    //         uint256 value;
+    //         for (uint256 i = 0; i < tempWinners.length; i++) {
+    //             value = 1000;
+    //             // uint256 currentWinnerIndex = generateRandomWinnerIndex(5341531); //генерирует индекс игрока ( кстати в playerCard можно использовать вложеннный маппинг и тогда игрокам давать порядковые индексы от единицы)
+    //             // tempWinners[i] = currentWinnerIndex; // вставляем сгенерированный индекс в темп массив победителей
 
-                GameContract.sendRaffleTokens(
-                    GameContract.getBlackTablePlayerByIndex(tempWinners[i]),
-                    value
-                ); // изменить число
-                console.log("tokens are gone!");
-                // тут сделать ивенты и вообще везде сделать ивенты
+    //             GameContract.sendRaffleTokens(
+    //                 GameContract.getBlackTablePlayerByIndex(tempWinners[i]),
+    //                 value
+    //             ); // изменить число
+    //             console.log("tokens are gone!");
+    //             // тут сделать ивенты и вообще везде сделать ивенты
 
-                //розыгрыш токенов phase
-            }
+    //             //розыгрыш токенов phase
+    //         }
 
-            emit blackRoomClaimedPrizeRaffleToken(
-                tempWinnersAddresses,
-                value,
-                GameContract.getBlackTablePrizeRadioChoice()
-            );
-        }
+    //         emit blackRoomClaimedPrizeRaffleToken(
+    //             tempWinnersAddresses,
+    //             value,
+    //             GameContract.getBlackTablePrizeRadioChoice()
+    //         );
+    //     }
 
-        if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
-            //розыгрыш дорогой нфтшки
+    //     if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
+    //         //розыгрыш дорогой нфтшки
 
-            uint256 indexWinner = helper.generateRandomWinnerIndexInBlackRoom(
-                54354
-            );
-            uint256 tokenId = 1;
+    //         uint256 indexWinner = helper.generateRandomWinnerIndexInBlackRoom(
+    //             54354
+    //         );
+    //         uint256 tokenId = 1;
 
-            GameContract.sendRaffleNFTToWinner(
-                GameContract.getBlackTablePlayerByIndex(indexWinner),
-                tokenId
-            );
-            console.log("allgood");
-            // указать токен id которым владеет смарт контракт либо отдельно его затесапить при трансфере токена на контракт
+    //         GameContract.sendRaffleNFTToWinner(
+    //             GameContract.getBlackTablePlayerByIndex(indexWinner),
+    //             tokenId
+    //         );
+    //         console.log("allgood");
+    //         // указать токен id которым владеет смарт контракт либо отдельно его затесапить при трансфере токена на контракт
 
-            //Трансфер нфтшки юзеру (она должна быть на контракте, наш контракт должен уметь принимать 721  токены)
+    //         //Трансфер нфтшки юзеру (она должна быть на контракте, наш контракт должен уметь принимать 721  токены)
 
-            address winner = msg.sender;
-            // либо можно взять повыше
+    //         address winner = msg.sender;
+    //         // либо можно взять повыше
 
-            // delete tempWinners; // пробуем занулить значения удалив, если будет ревертиться нужно будет по другому очищать массив, либо
-            // сделать функцию фиктивного наполнения
+    //         // delete tempWinners; // пробуем занулить значения удалив, если будет ревертиться нужно будет по другому очищать массив, либо
+    //         // сделать функцию фиктивного наполнения
 
-            emit blackRoomClaimedPrizeRaffleNFT(
-                winner,
-                tokenId,
-                GameContract.getBlackTablePrizeRadioChoice()
-            );
-        }
+    //         emit blackRoomClaimedPrizeRaffleNFT(
+    //             winner,
+    //             tokenId,
+    //             GameContract.getBlackTablePrizeRadioChoice()
+    //         );
+    //     }
 
-        // сжечь токены проигравших
-        // console.log(blackTable.players.length);
-        // console.log(tempWinners.length);
-        // console.log(tempWinners[0]);
-        // console.log(tempWinners[1]);
-        // console.log(tempWinners[2]);
+    //     // сжечь токены проигравших
+    //     // console.log(blackTable.players.length);
+    //     // console.log(tempWinners.length);
+    //     // console.log(tempWinners[0]);
+    //     // console.log(tempWinners[1]);
+    //     // console.log(tempWinners[2]);
 
-        for (
-            uint256 i = 0;
-            i < GameContract.getBlackTablePlayersLength();
-            i++
-        ) {
-            if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
-                Collection.burn(
-                    GameContract.getBlackTablePlayingTokenIdByIndex(i)
-                ); // сжигание нфт токена каждого проигравшего
-                // console.log(blackTable.playingTokenIds[i]);
-                // console.log("was burned");
-            }
+    //     for (
+    //         uint256 i = 0;
+    //         i < GameContract.getBlackTablePlayersLength();
+    //         i++
+    //     ) {
+    //         if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
+    //             Collection.burn(
+    //                 GameContract.getBlackTablePlayingTokenIdByIndex(i)
+    //             ); // сжигание нфт токена каждого проигравшего
+    //             // console.log(blackTable.playingTokenIds[i]);
+    //             // console.log("was burned");
+    //         }
 
-            // console.log("i");
-            // for (uint256 k = 0; k < tempWinners.length; k++) {
-            //     if (i == tempWinners[k] || (prizeRadioChoice == 3)) {
-            //         // к примеру первый элемент массива tempWinners это четверка
-            //         // сделать console.log для тестирования
-            //         console.log("get in something");
-            //     } else {
-            //         console.log("get outside something");
-            //         Collection.burn(blackTable.playingTokenIds[i]); // сжигание нфт токена каждого проигравшего
-            //         console.log(blackTable.playingTokenIds[i]);
-            //         console.log("was burned");
-            //     }
-            // }
-        }
-        // сжигание токенов проигравших phase
+    //         // console.log("i");
+    //         // for (uint256 k = 0; k < tempWinners.length; k++) {
+    //         //     if (i == tempWinners[k] || (prizeRadioChoice == 3)) {
+    //         //         // к примеру первый элемент массива tempWinners это четверка
+    //         //         // сделать console.log для тестирования
+    //         //         console.log("get in something");
+    //         //     } else {
+    //         //         console.log("get outside something");
+    //         //         Collection.burn(blackTable.playingTokenIds[i]); // сжигание нфт токена каждого проигравшего
+    //         //         console.log(blackTable.playingTokenIds[i]);
+    //         //         console.log("was burned");
+    //         //     }
+    //         // }
+    //     }
+    //     // сжигание токенов проигравших phase
 
-        // currentAmountGamesFinished[1]++; // вот тут вопросик но можно не считать этот каунтер вообще
+    //     // currentAmountGamesFinished[1]++; // вот тут вопросик но можно не считать этот каунтер вообще
 
-        // повышение времени рума в зависимости от количества сыгранных игр
+    //     // повышение времени рума в зависимости от количества сыгранных игр
 
-        // разморозить нфтшки
-        //повысить уровень нфтшек
-        //сменить масти нфтшек
-        // сделать их коммонками
-        // изменить статус игры
-        //прочие каунтеры
+    //     // разморозить нфтшки
+    //     //повысить уровень нфтшек
+    //     //сменить масти нфтшек
+    //     // сделать их коммонками
+    //     // изменить статус игры
+    //     //прочие каунтеры
 
-        // проверить сколько игр прошло
+    //     // проверить сколько игр прошло
 
-        //очистить массивы для новой игры
+    //     //очистить массивы для новой игры
 
-        //   задача: клеймить все available столы при клейме любого стола
+    //     //   задача: клеймить все available столы при клейме любого стола
 
-        //     for (uint256 i = 0; i < blackTable.players.length; i++) {
-        //     for (uint256 k = 0; i < tempWinners.length; k++) {
-        //         if (i == tempWinners[k]) {
-        //             // к примеру первый элемент массива tempWinners это четверка
-        //             // сделать console.log для тестирования
-        //         } else {
-        //             Collection.burn(blackTable.playingTokenIds[i]); // сжигание нфт токена каждого проигравшего
-        //         }
-        //     }
-        // }
-        // сжигание токенов проигравших phase
+    //     //     for (uint256 i = 0; i < blackTable.players.length; i++) {
+    //     //     for (uint256 k = 0; i < tempWinners.length; k++) {
+    //     //         if (i == tempWinners[k]) {
+    //     //             // к примеру первый элемент массива tempWinners это четверка
+    //     //             // сделать console.log для тестирования
+    //     //         } else {
+    //     //             Collection.burn(blackTable.playingTokenIds[i]); // сжигание нфт токена каждого проигравшего
+    //     //         }
+    //     //     }
+    //     // }
+    //     // сжигание токенов проигравших phase
 
    
 
-        // blackTable.lastGameFinishedAt = block.timestamp;
-        // blackTable.status = 4;
-        // blackTable.serialNumber++;
-    }
+    //     // blackTable.lastGameFinishedAt = block.timestamp;
+    //     // blackTable.status = 4;
+    //     // blackTable.serialNumber++;
+    // }
 
 
 
@@ -370,6 +377,16 @@ contract Helper1 {
     {
         return blackTableWinners[0].tempWinners;
     }
+
+
+            function getBlackTableWinnersInfoTempInvolvedTokenIds()
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return blackTableWinners[0].tempInvolvedTokenIds;
+    }
+
 
 
     function getBlackTableWinnersInfoWinnersByPlaces()
@@ -497,26 +514,33 @@ contract Helper1 {
         // СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ
         // СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ
         // СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ
+        // СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ
+        // СЖИШАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ СЖИГАНИЕ ТОКЕНОВ ПРОИГРАВШИХ
 
 
             //   бред какой то сверять по k, нужно сверять по isValueInArray
+
+            if(GameContract.getBlackTablePrizeRadioChoice() == 1) {
             for (uint256 k = 0; k < GameContract.getBlackTablePlayersLength(); k++) {
 
                         // распределение по виннерам
-                if (isValueInArray(GameContract.getBlackTablePlayingTokenIdByIndex(k), blackTableWinners[0].tempWinners)) {
+                if (isValueInArray(GameContract.getBlackTablePlayingTokenIdByIndex(k), blackTableWinners[0].tempInvolvedTokenIds)) {
 
-                    console.log("we are not burning winner");
+                    console.log("we are not burning winner", GameContract.getBlackTablePlayingTokenIdByIndex(k));
 
                 }
                     
                     // к примеру первый элемент массива tempWinners это четверка
                     // сделать console.log для тестирования
                  else {
-                    
+                             Collection.setNotTransferable(
+                           GameContract.getBlackTablePlayingTokenIdByIndex(k), false); // does it matter? да и вообще стоит ли это делать
+
                     Collection._claimBurn(GameContract.getBlackTablePlayingTokenIdByIndex(k)); // сжигание нфт токена каждого проигравшего
                     console.log(GameContract.getBlackTablePlayingTokenIdByIndex(k),"was burned loser");
                     
                 }
+            }
             }
 
             /////
@@ -525,17 +549,30 @@ contract Helper1 {
 
 
 
+        if ( GameContract.getBlackTablePrizeRadioChoice() == 2 || GameContract.getBlackTablePrizeRadioChoice() == 3 ) {
+
+
           // сжигание второго и третьего чойса
-        for (
-            uint256 i = 0;
-            i < GameContract.getBlackTablePlayersLength();
-            i++
-        ) {
-            if (GameContract.getBlackTablePrizeRadioChoice() == 3 || GameContract.getBlackTablePrizeRadioChoice() == 2) {
-                Collection.burn(
+        for ( uint256 i = 0; i < GameContract.getBlackTablePlayersLength(); i++) {
+
+                    // просто не сжигаем индекс виннера для третьего чойса?
+                if (isValueInArray(i, blackTableWinners[0].tempWinners) && GameContract.getBlackTablePrizeRadioChoice() == 3 ) {
+
+
+
+                    console.log("REGISTERED WINNER IN 3TH CHOICE");
+                        // виннера не сжигаем только для третьего чойса
+                        
+                } else {
+                    console.log("get in else");
+                Collection._claimBurn(
                     GameContract.getBlackTablePlayingTokenIdByIndex(i)
                 ); 
-                console.log("BURNING BY 2ND OR 3TH CHOICE");
+                console.log("BURNING BY 2ND OR 3TH CHOICE is ", GameContract.getBlackTablePlayingTokenIdByIndex(i));
+
+                }
+
+
             }
 
        
@@ -543,11 +580,8 @@ contract Helper1 {
 
         }
 
-
+            // transform tokens for 1st 
         if(GameContract.getBlackTablePrizeRadioChoice() == 1) {
-
-        
-
 
         for (uint256 o = 0; o < blackTableWinners[0].tempWinners.length; o++)
          {
@@ -555,6 +589,9 @@ contract Helper1 {
 
                          //transform in mintpass
                        GameContract.setIsMintPass(
+                           GameContract.getBlackTablePlayingTokenIdByIndex(blackTableWinners[0].tempWinners[o]), true
+                    );
+                           GameContract.setIsMintPass(
                            GameContract.getBlackTablePlayingTokenIdByIndex(blackTableWinners[0].tempWinners[o]), true
                     );
                     
@@ -589,14 +626,11 @@ contract Helper1 {
                     GameContract.getBlackTableTimeUntilRaffleExecution(),
             "try later"
         );
+        // только по времени получается сверяем или ниже добавить двойное условие какое то?
 
             // не работает?
 
 
-        require(
-            GameContract.getBlackTableStatus() != 4, // требуем чтобы раффл еще не прошел
-            "raffle already happened"
-        );
 
         globalDeterminationBlackTable(_salt);
 
@@ -620,8 +654,10 @@ contract Helper1 {
                             // сделать итерацию по индексам игрока
                             // если какой то его индекс в победителях - превратить его в минт пасс, остальное сжечь
                             // и удалять записи об индексах из стракта блектейбла
-
         if (GameContract.getBlackTablePrizeRadioChoice() == 1) {
+                console.log("here trying claim staking tokens");
+            GameContract.claimStakingTokensFromBlackRoom();
+
             //ПРЕВРАЩЕНИЕ В MINT PASS
             // идет количество итераций равное количество игроков для выигрыша, 
             //например у нас стояло количество победителей 3 и даже если игрок один мы
@@ -656,9 +692,9 @@ contract Helper1 {
 
             }
 
-
-            GameContract.claimStakingTokensFromBlackRoom();
-            if(GameContract.getBlackTablePlayersLength() == 0) {
+        
+            if(GameContract.getBlackTablePlayersNow() == 0) {
+                console.log("registered zero players in blackRoom");
             //emit ивента по соответствующему исходу
             emit blackRoomClaimedPrizeMintPass(
                 blackTableWinners[0].tempWinnersAddresses,
@@ -673,100 +709,130 @@ contract Helper1 {
 
         //     //РОЗЫГРЫШ КАКИХ ТО ТОКЕНОВ ( ПЕРЕД ВЫДАЧЕЙ ТОКЕНОВ ВВЕСТИ АДРЕС КОНТРАКТА ТОКЕНА КОТОРЫЙ РАССЫЛАЕТСЯ И ПО СКОЛЬКО РАССЫЛАТЬ)
 
-        // if (GameContract.getBlackTablePrizeRadioChoice() == 2) {
+        if (GameContract.getBlackTablePrizeRadioChoice() == 2) {
 
-        //         // добавить ли require на то что raffleToken должен быть установлен?
+            console.log("get in 2nd choice");
 
-        //     uint256 value = GameContract.getAmountTokensRaffleInBlackRoom();
-        //     for (uint256 i = 0; i < blackTableWinners[0].tempWinners.length; i++) {
+            require(GameContract.isRaffleTokenSet(), "RaffleToken not set");
+                        GameContract.claimStakingTokensFromBlackRoom();
 
-        //         // uint256 currentWinnerIndex = generateRandomWinnerIndex(5341531); //генерирует индекс игрока ( кстати в playerCard можно использовать вложеннный маппинг и тогда игрокам давать порядковые индексы от единицы)
-        //         // tempWinners[i] = currentWinnerIndex; // вставляем сгенерированный индекс в темп массив победителей
 
-        //         GameContract.sendRaffleTokens(
-        //             blackTableWinners[0].tempWinnersAddresses[i] ,
-        //             value
+                // добавить ли require на то что raffleToken должен быть установлен?
+
+            uint256 value = GameContract.getAmountTokensRaffleInBlackRoom();
+               for (uint256 i = 0; i < playerIndexes.length; i++) {
+
+                    // смотрим есть ли индексы игрока в массиве индексов победителей
+                if(isValueInArray(playerIndexes[i], blackTableWinners[0].tempWinners)) {
+          
+                        // логика если виннер
+
+                          GameContract.sendRaffleTokens(
+                    GameContract.getBlackTablePlayerByIndex(playerIndexes[i]),
+                    value
                     
-        //         ); // изменить число
-        //         console.log("tokens are gone!");
-                
-                
-        //     }
+                ); // изменить число
+                console.log("sent tokens to ", GameContract.getBlackTablePlayerByIndex(playerIndexes[i]));
+                                emit UserClaimedPartBlackRoom(tx.origin, value, GameContract.getBlackTablePrizeRadioChoice());
 
-        //     emit blackRoomClaimedPrizeRaffleToken(
-        //          blackTableWinners[0].tempWinnersAddresses,
-        //         value,
-        //         GameContract.getBlackTablePrizeRadioChoice()
-        //     );
-        // }
+                    
+                } 
 
+                    GameContract.deletePlayerInBlackRoomByIndexV2(playerIndexes[i]);
+                                    //delete index of player
 
-        //         //розыгрыш дорогой нфтшки
-        // if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
-            
+            }
 
-        //     uint256 indexWinner = helper.generateRandomWinnerIndexInBlackRoom(
-        //         _salt
-        //     );
-            
-
-        //     GameContract.sendRaffleNFTToWinner(
-        //         GameContract.getBlackTablePlayerByIndex(indexWinner),
-        //         GameContract.getRaffleNFTTokenIdInBlackRoom()
-        //     );
-        //     console.log("raffle nft sent");
-        //     // указать токен id которым владеет смарт контракт либо отдельно его сетапить функцией перед клеймом рума
-
-        //     //Трансфер нфтшки юзеру (она должна быть на контракте, наш контракт должен уметь принимать 721  токены)
+            console.log("registered ", GameContract.getBlackTablePlayersNow(), " players in game");
+             if(GameContract.getBlackTablePlayersNow() == 0) {
+                console.log("registered zero players in blackRoom and doing event");
+            //emit ивента по соответствующему исходу
+                //подумать над логикой емита генерал опустошения рума и надо ли это вообще
+            emit blackRoomClaimedPrizeRaffleToken(
+                 blackTableWinners[0].tempWinnersAddresses,
+                value,
+                GameContract.getBlackTablePrizeRadioChoice()
+            );
+             
+             }
 
 
-        //     // delete tempWinners; // пробуем занулить значения удалив, если будет ревертиться нужно будет по другому очищать массив, либо
-        //     // сделать функцию фиктивного наполнения
 
-        //     emit blackRoomClaimedPrizeRaffleNFT(
-        //         msg.sender, // or tx origin?
-        //         GameContract.getRaffleNFTTokenIdInBlackRoom(),
-        //         GameContract.getBlackTablePrizeRadioChoice()
-        //     );
-        // }
+        }
+
+
+                //розыгрыш дорогой нфтшки
+        if (GameContract.getBlackTablePrizeRadioChoice() == 3) {
+
+            require(GameContract.isRaffleNFTSet() && GameContract.getRaffleNFTTokenIdInBlackRoom() != 0, "Raffle NFT Options has not been set");
+
+                        GameContract.claimStakingTokensFromBlackRoom();
+
+            // ТУТ МЫ ПРЕДПОЛАГАЕМ ЧТО ПЕРЕД КЛЕЙМОМ МЫ ИЗМЕНИЛИ КОЛИЧЕСТВО ВИННЕРОВ
+            // В БЛЕК РУМЕ НА ОДИН (ОДИН ЭЛЕМЕНТ В МАССИВЕ)
+            // И БУДЕМ ТАК ЖЕ КАК В ПРЕДЫДУЩИХ ЧОЙСАХ ПРОХОДИТЬСЯ ПО ЭТОМУ МАССИВУ
+
+
+
+                   for (uint256 i = 0; i < playerIndexes.length; i++) {
+
+                    // смотрим есть ли индексы игрока в массиве ИНДЕКСА ПОБЕДИТЕЛЯ
+                if(isValueInArray(playerIndexes[i], blackTableWinners[0].tempWinners)) {
+          
+                        
+                    
+
+                        GameContract.sendRaffleNFTToWinner(
+                GameContract.getBlackTablePlayerByIndex(playerIndexes[i]),
+                GameContract.getRaffleNFTTokenIdInBlackRoom()
+            );
+            console.log("raffle nft sent");
+            // указать токен id которым владеет смарт контракт либо отдельно его сетапить функцией перед клеймом рума
+
+            //Трансфер нфтшки юзеру (она должна быть на контракте, наш контракт должен уметь принимать 721  токены)
+
+
+            // delete tempWinners; // пробуем занулить значения удалив, если будет ревертиться нужно будет по другому очищать массив, либо
+            // сделать функцию фиктивного наполнения
+
+            emit blackRoomClaimedPrizeRaffleNFT(
+                tx.origin, // or tx origin?
+                GameContract.getRaffleNFTTokenIdInBlackRoom(),
+                GameContract.getBlackTablePrizeRadioChoice()
+            );
+                    
+                } 
+
+
+
+
+                    GameContract.deletePlayerInBlackRoomByIndexV2(playerIndexes[i]);
+                                    //delete index of player в любом случае надо удалить юзера из игры
+
+            }
+
+
+
+    
+        }
 
    
-        // // for (
-        // //     uint256 i = 0;
-        // //     i < GameContract.getBlackTablePlayersLength();
-        // //     i++
-        // // ) {
-        // //     if (GameContract.getBlackTablePrizeRadioChoice() == 3 || GameContract.getBlackTablePrizeRadioChoice() == 2) {
-        // //         Collection.burn(
-        // //             GameContract.getBlackTablePlayingTokenIdByIndex(i)
-        // //         ); 
-        // //     }
 
-       
-        // // }
-        // // сжигание токенов проигравших phase
+        //    //сменить масти нфтшек ИМЕЕТ СМЫСЛ?
+     
+        // проверить сколько игр прошло
 
-        // // currentAmountGamesFinished[1]++; // вот тут вопросик но можно не считать этот каунтер вообще
+        //очистить массивы для новой игры (НЕ ДЛЯ НОВОЙ ИГРЫ НО ПРОСТО ОЧИСТИТЬ)
 
-        // // повышение времени рума в зависимости от количества сыгранных игр
+                    if(GameContract.getBlackTablePlayersNow() == 0) {
 
-        // // разморозить нфтшки
-        // //повысить уровень нфтшек
-        // //сменить масти нфтшек
-        // // сделать их коммонками
-        // // изменить статус игры
-        // //прочие каунтеры
-
-        // // проверить сколько игр прошло
-
-        // //очистить массивы для новой игры
-
-        // GameContract.setBlackTableLastGameFinishedAt(block.timestamp);
-        // GameContract.setBlackTableStatus(4);
-        // GameContract.incrBlackTableSerialNumber();
-
-        // // blackTable.lastGameFinishedAt = block.timestamp;
-        // // blackTable.status = 4;
-        // // blackTable.serialNumber++;
+        console.log("registered zero players in blackRoom");
+        GameContract.setBlackTableLastGameFinishedAt(block.timestamp);
+        GameContract.setBlackTableStatus(4);
+        GameContract.incrBlackTableSerialNumber();
+                    }
+        // blackTable.lastGameFinishedAt = block.timestamp;
+        // blackTable.status = 4;
+        // blackTable.serialNumber++;
     }
 }

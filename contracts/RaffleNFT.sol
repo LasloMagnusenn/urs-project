@@ -16,7 +16,7 @@ contract RaffleNFT is ERC721, Ownable {
         return "untitled";
     }
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to) public  {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
